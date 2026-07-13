@@ -16,7 +16,8 @@ La Etapa 00 — Planificación y Diseño del Producto está cerrada. La Etapa 01
 - [x] 01.2 — Repositorio profesional.
 - [x] 01.3 — React + TypeScript + Vite.
 - [x] 01.4 — Integración de Tauri.
-- [ ] 01.5 — Tailwind CSS y base visual mínima.
+- [x] 01.5 — Tailwind CSS y base visual mínima.
+- [ ] 01.6 — Calidad automática y configuración compartida de VS Code.
 
 ## Estado técnico del repositorio
 
@@ -28,6 +29,10 @@ La Etapa 00 — Planificación y Diseño del Producto está cerrada. La Etapa 01
 - Dependencias administradas con npm y `package-lock.json` versionable.
 - Node.js 24.x y npm 11 o superior declarados en `package.json`.
 - Tauri CLI 2.11.4 integrada en `src-tauri/`.
+- Tailwind CSS 4.3.2 y `@tailwindcss/vite` 4.3.2 integrados mediante el plugin oficial de Vite.
+- `src/index.css` carga Tailwind mediante `@import "tailwindcss"`.
+- Base visual mínima temporal validada en navegador y dentro de Tauri.
+- Archivos de demostración de Vite eliminados.
 - Aplicación validada en navegador y como ventana nativa de Windows.
 - `npm audit` completado con 0 vulnerabilidades.
 - `npm run lint` y `npm run build` aprobados.
@@ -91,4 +96,4 @@ Vite se creó en la raíz no vacía conservando `docs/`. El README genérico de 
 
 ## Próximo checkpoint
 
-**01.5 — Tailwind CSS y base visual mínima.**
+**01.6 — Calidad automática y configuración compartida de VS Code.**

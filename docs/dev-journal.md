@@ -98,6 +98,51 @@ chore: integrate Tauri desktop runtime
 
 **Aprendizaje:** los watchers de cada toolchain deben respetar sus límites; los artefactos de Cargo no pertenecen al ciclo de Vite.
 
-## Estado al finalizar el checkpoint 01.4
+### Checkpoint 01.5 — Tailwind CSS y base visual mínima
 
-La aplicación funciona en navegador y como ventana nativa de Windows. La Etapa 01 continúa activa y el siguiente checkpoint es **01.5 — Tailwind CSS y base visual mínima**.
+Se instalaron Tailwind CSS 4.3.2 y `@tailwindcss/vite` 4.3.2. La integración se realizó mediante el plugin oficial en `vite.config.ts`, manteniendo junto a él el plugin de React y la exclusión de `src-tauri` del watcher.
+
+La hoja global `src/index.css` quedó como punto de entrada de Tailwind mediante:
+
+```css
+@import "tailwindcss";
+```
+
+Para validar la integración se creó una pantalla visual mínima temporal en `App.tsx`. El objetivo de esa interfaz no fue iniciar todavía el sistema de diseño, sino comprobar que las utilidades de Tailwind se compilaran y renderizaran correctamente tanto en navegador como dentro de Tauri.
+
+#### Incidencia: los estilos no se aplicaban inicialmente
+
+**Síntoma:** la aplicación se ejecutaba, pero las clases de Tailwind no producían el resultado visual esperado.
+
+**Causa:** uno de los archivos modificados todavía no se había guardado, por lo que Vite continuaba trabajando con su contenido anterior.
+
+**Solución:** se guardó el archivo pendiente y se volvió a validar la aplicación.
+
+**Aprendizaje:** antes de investigar configuración, caché o compatibilidad de herramientas, conviene confirmar que todos los cambios del editor hayan sido persistidos en disco.
+
+#### Limpieza del scaffold de Vite
+
+Después de validar la base visual se eliminaron los recursos de demostración que ya no pertenecían a CanvasFlow:
+
+- `src/App.css`;
+- `src/assets/hero.png`;
+- `src/assets/react.svg`;
+- `src/assets/vite.svg`.
+
+Esta limpieza redujo ruido y dejó en `src/` solamente los archivos utilizados por la base actual.
+
+#### Incidencia: build fallido por importación residual
+
+**Síntoma:** `npm run build` falló después de eliminar `src/App.css`.
+
+**Causa:** `App.tsx` todavía conservaba la importación del archivo eliminado.
+
+**Solución:** se retiró la importación residual y se ejecutaron nuevamente las verificaciones.
+
+**Aprendizaje:** eliminar un recurso requiere revisar también sus referencias. El build funciona como una comprobación importante de integridad que puede detectar dependencias residuales aunque la intención del cambio sea solamente de limpieza.
+
+El checkpoint cerró con `npm run lint` y `npm run build` aprobados, además de validación visual en navegador y Tauri.
+
+## Estado al finalizar el checkpoint 01.5
+
+Tailwind CSS y la base visual mínima están configurados. La Etapa 01 continúa activa y el siguiente checkpoint es **01.6 — Calidad automática y configuración compartida de VS Code**.

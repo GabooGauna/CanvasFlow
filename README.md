@@ -18,7 +18,7 @@ El proyecto se encuentra en la Etapa 01 de configuración profesional. La base R
 - Git 2.51.0.windows.1.
 - rustup 1.29.0; rustc y cargo 1.97.0.
 - Toolchain `stable-x86_64-pc-windows-msvc`.
-- React 19, TypeScript 6, Vite 8 y Tauri CLI 2.11.4.
+- React 19, TypeScript 6, Vite 8, Tailwind CSS 4.3.2 y Tauri CLI 2.11.4.
 
 ## Instalación
 

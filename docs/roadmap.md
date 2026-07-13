@@ -99,7 +99,8 @@ El proyecto compila correctamente y mantiene una estructura profesional.
 - [x] **01.2 — Repositorio profesional.** Git y GitHub configurados; convenciones base y primer commit creados.
 - [x] **01.3 — React + TypeScript + Vite.** Scaffold creado; lint, build y ejecución web validados.
 - [x] **01.4 — Integración de Tauri.** Aplicación nativa ejecutada correctamente en Windows.
-- [ ] **01.5 — Tailwind CSS y base visual mínima.** Siguiente checkpoint.
+- [x] **01.5 — Tailwind CSS y base visual mínima.** Integración validada en navegador y Tauri; scaffold de Vite limpiado.
+- [ ] **01.6 — Calidad automática y configuración compartida de VS Code.** Siguiente checkpoint.
 
 ---
 
