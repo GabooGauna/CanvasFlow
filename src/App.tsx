@@ -4,9 +4,7 @@ function App() {
       <section className="w-full max-w-xl rounded-2xl border border-slate-800 bg-slate-900 p-8 shadow-2xl">
         <p className="mb-2 text-sm font-medium text-cyan-400">CanvasFlow</p>
 
-        <h1 className="text-3xl font-bold tracking-tight text-white">
-          Base visual configurada
-        </h1>
+        <h1 className="text-3xl font-bold tracking-tight text-white">Base visual configurada</h1>
 
         <p className="mt-4 leading-7 text-slate-300">
           React, TypeScript, Vite, Tauri y Tailwind CSS ya trabajan juntos.
@@ -20,7 +18,7 @@ function App() {
         </button>
       </section>
     </main>
-  );
+  )
 }
 
-export default App;
+export default App
