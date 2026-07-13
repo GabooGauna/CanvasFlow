@@ -18,7 +18,8 @@ La Etapa 00 — Planificación y Diseño del Producto está cerrada. La Etapa 01
 - [x] 01.4 — Integración de Tauri.
 - [x] 01.5 — Tailwind CSS y base visual mínima.
 - [x] 01.6 — Calidad automática y configuración compartida de VS Code.
-- [ ] 01.7 — Estructura mínima del proyecto.
+- [x] 01.7 — Estructura mínima del proyecto.
+- [ ] 01.8 — Verificación final y cierre de la Etapa 01.
 
 ## Estado técnico del repositorio
 
@@ -30,13 +31,29 @@ La Etapa 00 — Planificación y Diseño del Producto está cerrada. La Etapa 01
 - Node.js 24.x y npm 11 o superior declarados en `package.json`.
 - Tauri CLI 2.11.4 integrada en `src-tauri/`.
 - Tailwind CSS 4.3.2 y `@tailwindcss/vite` 4.3.2 integrados mediante el plugin oficial de Vite.
-- `src/index.css` carga Tailwind mediante `@import "tailwindcss"`.
+- `src/styles/globals.css` carga Tailwind mediante `@import "tailwindcss"` y contiene los estilos globales.
 - Base visual mínima temporal validada en navegador y dentro de Tauri.
 - Archivos de demostración de Vite eliminados.
 - Aplicación validada en navegador y como ventana nativa de Windows.
 - `npm audit` completado con 0 vulnerabilidades.
 - `npm run lint` y `npm run build` aprobados.
 - Primera ejecución de `npm run tauri dev` exitosa.
+
+## Estructura mínima del frontend
+
+```text
+src/
+├── app/
+│   └── App.tsx
+├── styles/
+│   └── globals.css
+└── main.tsx
+```
+
+- `src/main.tsx` es el punto de entrada del frontend.
+- `src/app/App.tsx` representa la raíz visual de la aplicación.
+- `src/styles/globals.css` contiene Tailwind y los estilos globales.
+- La estructura permanece deliberadamente mínima; la arquitectura completa se definirá en la Etapa 02.
 
 ## Calidad automática
 
@@ -102,4 +119,4 @@ Vite se creó en la raíz no vacía conservando `docs/`. El README genérico de 
 
 ## Próximo checkpoint
 
-**01.7 — Estructura mínima del proyecto.**
+**01.8 — Verificación final y cierre de la Etapa 01.**

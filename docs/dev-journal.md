@@ -200,6 +200,45 @@ El checkpoint terminó con los siguientes comandos aprobados:
 - `npm run check`;
 - `git diff --check`.
 
-## Estado al finalizar el checkpoint 01.6
+### Checkpoint 01.7 — Estructura mínima del proyecto
 
-El sistema de formato, análisis estático, validación de tipos, build y configuración compartida del editor está operativo. La Etapa 01 continúa activa y el siguiente checkpoint es **01.7 — Estructura mínima del proyecto**.
+Se reorganizó el frontend para establecer límites iniciales claros sin anticipar una arquitectura que todavía no fue diseñada ni validada.
+
+La estructura resultante es deliberadamente pequeña:
+
+```text
+src/
+├── app/
+│   └── App.tsx
+├── styles/
+│   └── globals.css
+└── main.tsx
+```
+
+`src/App.tsx` se movió a `src/app/App.tsx`. Este archivo representa la raíz visual de la aplicación y queda separado del punto de entrada técnico.
+
+`src/index.css` se movió a `src/styles/globals.css`. El nuevo nombre comunica que la hoja contiene la importación de Tailwind y los estilos globales compartidos por la aplicación.
+
+`src/main.tsx` continúa siendo el punto de entrada del frontend y fue actualizado para importar `./app/App` y `./styles/globals.css`.
+
+#### Decisión: evitar arquitectura prematura
+
+No se crearon todavía directorios como `features/`, `domain/`, `services/`, `repositories/`, `stores/`, `hooks/` o `components/`.
+
+Esas carpetas representan límites y responsabilidades concretas. Crearlas antes de contar con casos de uso reales produciría una estructura especulativa, obligaría a decidir dependencias sin evidencia y podría generar refactorizaciones innecesarias.
+
+La organización actual resuelve únicamente las responsabilidades que ya existen: arranque, raíz visual y estilos globales. La arquitectura completa se definirá durante la Etapa 02, cuando pueda diseñarse a partir del dominio y de los primeros flujos reales.
+
+**Aprendizaje:** una estructura profesional no se mide por la cantidad de carpetas. Su valor está en expresar límites reales y evolucionar cuando aparecen responsabilidades verificables.
+
+#### Validación
+
+La reorganización se validó correctamente mediante:
+
+- `npm run check`;
+- ejecución en navegador;
+- ejecución dentro de Tauri.
+
+## Estado al finalizar el checkpoint 01.7
+
+La estructura mínima del frontend está organizada y validada. La Etapa 01 continúa activa y el siguiente checkpoint es **01.8 — Verificación final y cierre de la Etapa 01**.

@@ -101,7 +101,8 @@ El proyecto compila correctamente y mantiene una estructura profesional.
 - [x] **01.4 — Integración de Tauri.** Aplicación nativa ejecutada correctamente en Windows.
 - [x] **01.5 — Tailwind CSS y base visual mínima.** Integración validada en navegador y Tauri; scaffold de Vite limpiado.
 - [x] **01.6 — Calidad automática y configuración compartida de VS Code.** Formato, lint, tipos, build y editor compartido validados.
-- [ ] **01.7 — Estructura mínima del proyecto.** Siguiente checkpoint.
+- [x] **01.7 — Estructura mínima del proyecto.** Entrada, raíz visual y estilos globales organizados sin arquitectura prematura.
+- [ ] **01.8 — Verificación final y cierre de la Etapa 01.** Siguiente checkpoint.
 
 ---
 
