@@ -2,13 +2,13 @@
 
 ## Etapa actual
 
-**Etapa 01 — Configuración Profesional del Proyecto**
+**Etapa 01 — Configuración Profesional del Proyecto (completada)**
 
 ## Estado
 
-🟡 En progreso.
+🟢 Completado.
 
-La Etapa 00 — Planificación y Diseño del Producto está cerrada. La Etapa 01 permanece activa y no se considera terminada.
+La Etapa 00 — Planificación y Diseño del Producto y la Etapa 01 — Configuración Profesional del Proyecto están cerradas.
 
 ## Checkpoints
 
@@ -19,7 +19,7 @@ La Etapa 00 — Planificación y Diseño del Producto está cerrada. La Etapa 01
 - [x] 01.5 — Tailwind CSS y base visual mínima.
 - [x] 01.6 — Calidad automática y configuración compartida de VS Code.
 - [x] 01.7 — Estructura mínima del proyecto.
-- [ ] 01.8 — Verificación final y cierre de la Etapa 01.
+- [x] 01.8 — Verificación final y cierre de la Etapa 01.
 
 ## Estado técnico del repositorio
 
@@ -38,6 +38,8 @@ La Etapa 00 — Planificación y Diseño del Producto está cerrada. La Etapa 01
 - `npm audit` completado con 0 vulnerabilidades.
 - `npm run lint` y `npm run build` aprobados.
 - Primera ejecución de `npm run tauri dev` exitosa.
+- Base técnica reproducible, ejecutable, validada y documentada.
+- Repositorio limpio y rama `main` sincronizada con `origin/main` al cierre.
 
 ## Estructura mínima del frontend
 
@@ -65,6 +67,17 @@ src/
 - Configuración compartida de VS Code preparada con formato al guardar, correcciones explícitas de ESLint, finales LF y TypeScript local.
 - Extensiones recomendadas: ESLint, Prettier, Tauri y rust-analyzer.
 - `npm run format:check`, `npm run lint`, `npm run typecheck`, `npm run build`, `npm run check` y `git diff --check` aprobados.
+
+## Verificación final aprobada
+
+- Instalación reproducible mediante `npm ci`.
+- `npm audit` sin vulnerabilidades conocidas.
+- Formato, lint, tipos y build frontend validados.
+- `cargo fmt --manifest-path src-tauri/Cargo.toml -- --check` aprobado.
+- `cargo check --manifest-path src-tauri/Cargo.toml` aprobado.
+- Aplicación validada mediante `npm run dev` y `npm run tauri dev`.
+- Build desktop de producción generado mediante `npm run tauri build`.
+- `git diff --check` aprobado.
 
 ## Requisitos generales de desarrollo
 
@@ -107,6 +120,14 @@ La terminal no había cargado el entorno MSVC x64. Se utilizó `vcvars64.bat` y 
 
 Vite intentaba observar `src-tauri/target` mientras Cargo compilaba. Se configuró `vite.config.ts` para ignorar `**/src-tauri/**`.
 
+### ESLint sobre archivos generados
+
+ESLint alcanzó un archivo JavaScript generado dentro de `src-tauri/target/release`. Se agregaron `dist`, `src-tauri/target` y `src-tauri/gen` a `globalIgnores`, evitando analizar artefactos internos de Vite, Tauri y Cargo sin borrarlos manualmente.
+
+### Formato inicial de Rust
+
+`rustfmt` normalizó la indentación generada inicialmente por Tauri en `src-tauri/build.rs`, `src-tauri/src/lib.rs` y `src-tauri/src/main.rs`.
+
 ### Preservación de documentación y README
 
 Vite se creó en la raíz no vacía conservando `docs/`. El README genérico de Vite se descartó y se mantuvo la visión original de CanvasFlow.
@@ -117,6 +138,8 @@ Vite se creó en la raíz no vacía conservando `docs/`. El README genérico de 
 - `src-tauri/target` debe permanecer fuera de la observación de Vite.
 - Las herramientas deberán respetar las versiones declaradas para evitar diferencias de entorno.
 
-## Próximo checkpoint
+## Próxima etapa
 
-**01.8 — Verificación final y cierre de la Etapa 01.**
+**Etapa 02 — Arquitectura.**
+
+La arquitectura completa de funcionalidades todavía no fue implementada y se definirá durante esta etapa.

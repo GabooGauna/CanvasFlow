@@ -2,7 +2,7 @@
 
 CanvasFlow es una aplicación de escritorio de productividad visual que integrará organización Kanban, un canvas infinito y gestión de conocimiento en una experiencia rápida, limpia y modular.
 
-El proyecto se encuentra en la Etapa 01 de configuración profesional. La base React + TypeScript + Vite funciona en navegador y ya está integrada con Tauri como aplicación nativa de Windows.
+La Etapa 01 — Configuración Profesional del Proyecto está completada. CanvasFlow cuenta con una base web y desktop validada; la próxima etapa es la Etapa 02 — Arquitectura.
 
 ## Requisitos previos
 
@@ -12,19 +12,19 @@ El proyecto se encuentra en la Etapa 01 de configuración profesional. La base R
 - Visual Studio con **Desarrollo para el escritorio con C++**, MSVC x64 y Windows 11 SDK.
 - WebView2.
 
-## Entorno validado
+## Stack actual
 
-- Node.js 24.18.0 y npm 11.5.2.
-- Git 2.51.0.windows.1.
-- rustup 1.29.0; rustc y cargo 1.97.0.
-- Toolchain `stable-x86_64-pc-windows-msvc`.
+- Node.js 24.x y npm 11 o superior.
+- Rust estable con target `x86_64-pc-windows-msvc`.
 - React 19, TypeScript 6, Vite 8, Tailwind CSS 4.3.2 y Tauri CLI 2.11.4.
 
 ## Instalación
 
 ```bash
-npm install
+npm ci
 ```
+
+`npm ci` reproduce exactamente las dependencias registradas en `package-lock.json`. Para agregar o actualizar dependencias durante el desarrollo se utiliza `npm install`.
 
 ## Comandos
 
@@ -33,12 +33,14 @@ npm run dev
 npm run build
 npm run lint
 npm run tauri dev
+npm run tauri build
 ```
 
 - `npm run dev`: inicia la aplicación web.
 - `npm run build`: valida TypeScript y genera el build frontend.
 - `npm run lint`: ejecuta ESLint.
 - `npm run tauri dev`: inicia la aplicación de escritorio.
+- `npm run tauri build`: genera el build desktop de producción.
 
 ## Calidad y validación
 

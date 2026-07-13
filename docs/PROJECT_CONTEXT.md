@@ -4,11 +4,13 @@ Documento maestro destinado a reunir la visión, el alcance y el contexto esenci
 
 ## Estado técnico
 
-La Etapa 00 — Planificación y Diseño del Producto está cerrada. CanvasFlow se encuentra en la Etapa 01 — Configuración Profesional del Proyecto.
+La Etapa 00 — Planificación y Diseño del Producto y la Etapa 01 — Configuración Profesional del Proyecto están cerradas.
 
-El repositorio está configurado con Git, utiliza la rama `main` y cuenta con una base ejecutable de React, TypeScript y Vite integrada con Tauri.
+El repositorio está configurado con Git, utiliza la rama `main` y cuenta con una base técnica web y desktop reproducible y validada: React, TypeScript y Vite integrados con Tauri.
 
-La aplicación fue validada en navegador y como ventana nativa de Windows. El estado detallado y el próximo checkpoint se mantienen en [CURRENT_STATE.md](CURRENT_STATE.md).
+La aplicación fue validada en navegador, como ventana nativa de Windows y mediante builds de producción. La siguiente etapa será la definición de arquitectura; la arquitectura completa de funcionalidades todavía no está implementada.
+
+El estado detallado se mantiene en [CURRENT_STATE.md](CURRENT_STATE.md).
 
 ## Estrategia de datos
 

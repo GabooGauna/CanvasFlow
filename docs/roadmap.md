@@ -62,7 +62,7 @@ Toda la documentación principal se encuentra aprobada y consistente.
 
 # Etapa 01 — Configuración Profesional del Proyecto
 
-**Estado: en progreso.**
+**Estado: completada.**
 
 ## Objetivo
 
@@ -102,9 +102,13 @@ El proyecto compila correctamente y mantiene una estructura profesional.
 - [x] **01.5 — Tailwind CSS y base visual mínima.** Integración validada en navegador y Tauri; scaffold de Vite limpiado.
 - [x] **01.6 — Calidad automática y configuración compartida de VS Code.** Formato, lint, tipos, build y editor compartido validados.
 - [x] **01.7 — Estructura mínima del proyecto.** Entrada, raíz visual y estilos globales organizados sin arquitectura prematura.
-- [ ] **01.8 — Verificación final y cierre de la Etapa 01.** Siguiente checkpoint.
+- [x] **01.8 — Verificación final y cierre de la Etapa 01.** Instalación reproducible, validaciones web y nativas, y builds de producción aprobados.
 
 ---
+
+# Etapa 02 — Arquitectura
+
+**Estado: siguiente etapa.**
 
 ### Sprint 2 — Arquitectura base
 
@@ -128,7 +132,7 @@ Existe una arquitectura limpia preparada para crecer.
 
 ---
 
-# Etapa 02 — Sistema de Diseño
+# Etapa 03 — Sistema de Diseño
 
 ## Objetivo
 
@@ -160,7 +164,7 @@ Existe un sistema visual consistente.
 
 ---
 
-# Etapa 03 — Fundamentos de React y TypeScript
+# Etapa 04 — Fundamentos de React y TypeScript
 
 ## Objetivo
 
@@ -225,7 +229,7 @@ Dominar los conceptos esenciales antes de desarrollar funcionalidades complejas.
 
 ---
 
-# Etapa 04 — Kanban
+# Etapa 05 — Kanban
 
 ## Objetivo
 
@@ -252,7 +256,7 @@ Construir el núcleo organizativo de CanvasFlow.
 
 ---
 
-# Etapa 05 — Persistencia
+# Etapa 06 — Persistencia
 
 ## Objetivo
 
@@ -282,7 +286,7 @@ Guardar toda la información localmente.
 
 ---
 
-# Etapa 06 — Canvas
+# Etapa 07 — Canvas
 
 ## Objetivo
 
@@ -309,7 +313,7 @@ Integrar el lienzo visual.
 
 ---
 
-# Etapa 07 — Búsqueda
+# Etapa 08 — Búsqueda
 
 ### Sprint 14
 
@@ -320,7 +324,7 @@ Integrar el lienzo visual.
 
 ---
 
-# Etapa 08 — Optimización
+# Etapa 09 — Optimización
 
 ### Sprint 15
 
@@ -338,7 +342,7 @@ Integrar el lienzo visual.
 
 ---
 
-# Etapa 09 — Testing
+# Etapa 10 — Testing
 
 ### Sprint 16
 
@@ -355,7 +359,7 @@ Integrar el lienzo visual.
 
 ---
 
-# Etapa 10 — Release 1.0
+# Etapa 11 — Release 1.0
 
 ### Sprint 17
 

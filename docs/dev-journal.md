@@ -239,6 +239,66 @@ La reorganización se validó correctamente mediante:
 - ejecución en navegador;
 - ejecución dentro de Tauri.
 
-## Estado al finalizar el checkpoint 01.7
+### Checkpoint 01.8 — Verificación final y cierre de la Etapa 01
 
-La estructura mínima del frontend está organizada y validada. La Etapa 01 continúa activa y el siguiente checkpoint es **01.8 — Verificación final y cierre de la Etapa 01**.
+El último checkpoint se dedicó a comprobar que la base técnica pudiera instalarse, validarse, ejecutarse y compilarse de forma reproducible antes de comenzar la arquitectura de funcionalidades.
+
+#### Instalación reproducible: `npm install` y `npm ci`
+
+`npm install` resuelve dependencias a partir de `package.json` y puede actualizar `package-lock.json` cuando el árbol declarado cambia. Es apropiado durante el desarrollo cuando se agregan o modifican dependencias.
+
+`npm ci` instala exactamente el árbol registrado en `package-lock.json`, requiere que el lockfile sea consistente y parte de una instalación limpia. Por eso se utilizó como verificación de que otro entorno o un proceso automatizado pueda reproducir las dependencias del proyecto.
+
+La instalación mediante `npm ci` terminó correctamente y `npm audit` no informó vulnerabilidades conocidas.
+
+#### Validación de Rust
+
+Se ejecutó `cargo fmt --manifest-path src-tauri/Cargo.toml -- --check` para comprobar el formato del código Rust. `rustfmt` había corregido previamente la indentación generada por Tauri en:
+
+- `src-tauri/build.rs`;
+- `src-tauri/src/lib.rs`;
+- `src-tauri/src/main.rs`.
+
+También se ejecutó `cargo check --manifest-path src-tauri/Cargo.toml` para validar tipos y compilación del proyecto nativo sin generar el ejecutable final completo.
+
+#### Incidencia: ESLint analizaba artefactos generados
+
+**Síntoma:** el lint falló por un archivo JavaScript generado dentro de `src-tauri/target/release`.
+
+**Causa:** ESLint recorría el repositorio completo y alcanzaba archivos internos producidos por Tauri y Cargo. Esos archivos no forman parte del código fuente mantenido por el proyecto y no deben cumplir sus reglas de lint.
+
+**Solución:** se configuró `globalIgnores` para excluir `dist`, `src-tauri/target` y `src-tauri/gen`.
+
+No fue necesario borrar artefactos manualmente. Los directorios generados permanecen fuera del análisis y correctamente ignorados por Git.
+
+**Aprendizaje:** las herramientas de calidad deben analizar únicamente código bajo responsabilidad del equipo. Ignorar salidas generadas evita falsos errores sin ocultar problemas del código fuente.
+
+#### Validación web y desktop
+
+La verificación final aprobó:
+
+- `npm run format:check`;
+- `npm run lint`;
+- `npm run typecheck`;
+- `npm run build`;
+- `npm run check`;
+- `cargo fmt --manifest-path src-tauri/Cargo.toml -- --check`;
+- `cargo check --manifest-path src-tauri/Cargo.toml`;
+- `git diff --check`.
+
+La aplicación se validó en navegador mediante `npm run dev` y como ventana nativa mediante `npm run tauri dev`. Finalmente, `npm run tauri build` generó correctamente el build desktop de producción.
+
+#### Cierre formal de la Etapa 01
+
+La Etapa 01 finaliza con una base web y desktop reproducible, ejecutable, validada y documentada. La rama `main` quedó limpia y sincronizada con `origin/main`.
+
+Los aprendizajes principales fueron:
+
+- auditar el entorno antes de crear el proyecto;
+- separar formato, lint, validación de tipos y build;
+- reproducir dependencias mediante un lockfile;
+- distinguir código fuente de artefactos generados;
+- validar por separado los toolchains web y nativo;
+- mantener una estructura mínima hasta contar con responsabilidades reales.
+
+La arquitectura completa todavía no está implementada. La siguiente etapa será **Etapa 02 — Arquitectura**.
