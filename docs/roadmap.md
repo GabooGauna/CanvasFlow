@@ -1,0 +1,369 @@
+# Roadmap
+
+# CanvasFlow — Roadmap del Proyecto
+
+## Objetivo
+
+Este roadmap organiza el desarrollo de CanvasFlow en etapas y sprints pequeños.
+
+Cada sprint tiene dos objetivos igualmente importantes:
+
+1. avanzar en el desarrollo del producto;
+2. aprender progresivamente React, TypeScript e Ingeniería de Software.
+
+Ninguna etapa se considerará finalizada únicamente porque el código funcione.
+
+Cada sprint deberá completar:
+
+- análisis;
+- diseño;
+- implementación;
+- pruebas;
+- refactorización;
+- documentación.
+
+---
+
+# Etapa 00 — Planificación y Diseño
+
+## Objetivo
+
+Definir completamente el producto antes de escribir código.
+
+### Sprint 0
+
+**Objetivos**
+
+- Definir la visión del producto.
+- Definir el alcance de la V1.
+- Elegir el stack tecnológico.
+- Diseñar la arquitectura de alto nivel.
+- Diseñar el modelo de dominio.
+- Crear la documentación inicial.
+- Registrar las primeras decisiones de arquitectura (ADR).
+
+**Conceptos que se aprenden**
+
+- Ingeniería de Software.
+- Arquitectura.
+- Modelado de dominio.
+- Documentación profesional.
+- Alcance del producto.
+- Roadmaps.
+- Backlog.
+
+**Criterio de finalización**
+
+Toda la documentación principal se encuentra aprobada y consistente.
+
+---
+
+# Etapa 01 — Preparación del proyecto
+
+## Objetivo
+
+Construir una base sólida antes de implementar funcionalidades.
+
+### Sprint 1 — Herramientas
+
+**Aprendizaje**
+
+- Git.
+- GitHub.
+- Vite.
+- Tauri.
+- npm.
+- Organización de proyectos.
+
+**Implementación**
+
+- Crear el repositorio.
+- Configurar React.
+- Configurar TypeScript.
+- Configurar Vite.
+- Configurar Tauri.
+- Configurar ESLint.
+- Configurar Prettier.
+
+**Criterio**
+
+El proyecto compila correctamente y mantiene una estructura profesional.
+
+---
+
+### Sprint 2 — Arquitectura base
+
+**Aprendizaje**
+
+- Arquitectura React.
+- Organización por módulos.
+- Separación de responsabilidades.
+- Convenciones.
+
+**Implementación**
+
+- Crear la estructura de carpetas.
+- Configurar aliases.
+- Crear App Shell.
+- Crear Layout principal.
+
+**Criterio**
+
+Existe una arquitectura limpia preparada para crecer.
+
+---
+
+# Etapa 02 — Sistema de Diseño
+
+## Objetivo
+
+Construir la identidad visual de CanvasFlow.
+
+### Sprint 3
+
+**Aprendizaje**
+
+- Tailwind CSS.
+- Design System.
+- Componentes reutilizables.
+- Accesibilidad.
+
+**Implementación**
+
+- Paleta de colores.
+- Tipografía.
+- Espaciados.
+- Botones.
+- Inputs.
+- Cards base.
+- Sidebar.
+- Header.
+
+**Criterio**
+
+Existe un sistema visual consistente.
+
+---
+
+# Etapa 03 — Fundamentos de React y TypeScript
+
+## Objetivo
+
+Dominar los conceptos esenciales antes de desarrollar funcionalidades complejas.
+
+### Sprint 4
+
+**React**
+
+- Componentes.
+- JSX.
+- Props.
+- Renderizado.
+
+**TypeScript**
+
+- Tipos.
+- Interfaces.
+- Type aliases.
+
+**Implementación**
+
+- Componentes básicos.
+
+---
+
+### Sprint 5
+
+**React**
+
+- Estado.
+- Eventos.
+- Hooks.
+
+**TypeScript**
+
+- Tipado de props.
+- Tipado de funciones.
+
+**Implementación**
+
+- Componentes interactivos.
+
+---
+
+### Sprint 6
+
+**React**
+
+- Renderizado condicional.
+- Listas.
+- Composición.
+
+**TypeScript**
+
+- Genéricos.
+- Utility Types.
+
+**Implementación**
+
+- Componentes reutilizables.
+
+---
+
+# Etapa 04 — Kanban
+
+## Objetivo
+
+Construir el núcleo organizativo de CanvasFlow.
+
+### Sprint 7
+
+- Modelo Project.
+- Modelo Board.
+- Modelo Column.
+- Modelo Board Item.
+
+### Sprint 8
+
+- Crear Boards.
+- Crear Columns.
+- Crear Cards.
+
+### Sprint 9
+
+- Drag & Drop.
+- Reordenamiento.
+- Movimiento entre Columns.
+
+---
+
+# Etapa 05 — Persistencia
+
+## Objetivo
+
+Guardar toda la información localmente.
+
+### Sprint 10
+
+**Aprendizaje**
+
+- IndexedDB.
+- Dexie.
+- Persistencia.
+
+**Implementación**
+
+- Persistencia de Projects.
+- Persistencia de Boards.
+- Persistencia de Board Items.
+
+---
+
+### Sprint 11
+
+- Guardado automático.
+- Recuperación del estado.
+- Migraciones.
+
+---
+
+# Etapa 06 — Canvas
+
+## Objetivo
+
+Integrar el lienzo visual.
+
+### Sprint 12
+
+**Aprendizaje**
+
+- Excalidraw.
+- Integración de librerías.
+
+**Implementación**
+
+- Primer Canvas.
+
+---
+
+### Sprint 13
+
+- Miniaturas.
+- Persistencia del Canvas.
+- Apertura desde Board Item.
+
+---
+
+# Etapa 07 — Búsqueda
+
+### Sprint 14
+
+- Buscador.
+- Índices.
+- Filtros.
+- Navegación a resultados.
+
+---
+
+# Etapa 08 — Optimización
+
+### Sprint 15
+
+**Aprendizaje**
+
+- Performance.
+- Memoización.
+- Renderizado.
+
+**Implementación**
+
+- Optimización de renders.
+- Lazy Loading.
+- Optimización de miniaturas.
+
+---
+
+# Etapa 09 — Testing
+
+### Sprint 16
+
+**Aprendizaje**
+
+- Vitest.
+- React Testing Library.
+
+**Implementación**
+
+- Tests de dominio.
+- Tests de componentes.
+- Tests de flujos críticos.
+
+---
+
+# Etapa 10 — Release 1.0
+
+### Sprint 17
+
+- Corrección de errores.
+- Documentación.
+- Empaquetado.
+- Build para Windows.
+
+---
+
+# Objetivo de la versión 1.0
+
+Al finalizar este roadmap, CanvasFlow deberá permitir a un estudiante:
+
+- crear Projects;
+- crear Boards;
+- organizar Columns;
+- crear Cards;
+- crear Canvas;
+- dibujar;
+- adjuntar PDF;
+- buscar contenido;
+- guardar automáticamente;
+- trabajar completamente offline.
+
+La versión 1.0 se considerará terminada únicamente cuando todas las funcionalidades P0 definidas en el backlog funcionen de forma estable, estén documentadas y hayan sido probadas.
