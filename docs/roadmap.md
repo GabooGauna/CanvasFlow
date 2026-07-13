@@ -26,6 +26,8 @@ Cada sprint deberá completar:
 
 # Etapa 00 — Planificación y Diseño
 
+**Estado: completada.**
+
 ## Objetivo
 
 Definir completamente el producto antes de escribir código.
@@ -58,7 +60,9 @@ Toda la documentación principal se encuentra aprobada y consistente.
 
 ---
 
-# Etapa 01 — Preparación del proyecto
+# Etapa 01 — Configuración Profesional del Proyecto
+
+**Estado: en progreso.**
 
 ## Objetivo
 
@@ -88,6 +92,14 @@ Construir una base sólida antes de implementar funcionalidades.
 **Criterio**
 
 El proyecto compila correctamente y mantiene una estructura profesional.
+
+### Progreso real de la Etapa 01
+
+- [x] **01.1 — Auditoría del entorno.** Toolchain web y nativa verificada; proyecto trasladado a `C:\dev\CanvasFlow`.
+- [x] **01.2 — Repositorio profesional.** Git y GitHub configurados; convenciones base y primer commit creados.
+- [x] **01.3 — React + TypeScript + Vite.** Scaffold creado; lint, build y ejecución web validados.
+- [x] **01.4 — Integración de Tauri.** Aplicación nativa ejecutada correctamente en Windows.
+- [ ] **01.5 — Tailwind CSS y base visual mínima.** Siguiente checkpoint.
 
 ---
 
