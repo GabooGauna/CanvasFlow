@@ -6,9 +6,9 @@ Documento maestro destinado a reunir la visión, el alcance y el contexto esenci
 
 La Etapa 00 — Planificación y Diseño del Producto está cerrada. CanvasFlow se encuentra en la Etapa 01 — Configuración Profesional del Proyecto.
 
-El repositorio activo está ubicado en `C:\dev\CanvasFlow`, utiliza Git con rama `main` vinculada a `origin/main` y ya cuenta con una base ejecutable de React, TypeScript y Vite integrada con Tauri.
+El repositorio está configurado con Git, utiliza la rama `main` y cuenta con una base ejecutable de React, TypeScript y Vite integrada con Tauri.
 
-La aplicación fue validada en navegador y como ventana nativa de Windows. Los checkpoints 01.1 a 01.4 están completados; el siguiente es 01.5 — Tailwind CSS y base visual mínima.
+La aplicación fue validada en navegador y como ventana nativa de Windows. El estado detallado y el próximo checkpoint se mantienen en [CURRENT_STATE.md](CURRENT_STATE.md).
 
 ## Estrategia de datos
 

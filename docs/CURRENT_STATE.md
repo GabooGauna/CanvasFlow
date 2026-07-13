@@ -22,9 +22,8 @@ La Etapa 00 — Planificación y Diseño del Producto está cerrada. La Etapa 01
 
 ## Estado técnico del repositorio
 
-- Repositorio ubicado fuera de OneDrive en `C:\dev\CanvasFlow`.
+- Repositorio trasladado fuera de una carpeta sincronizada.
 - Git inicializado con rama `main`, vinculada a `origin/main`.
-- Remoto: `https://github.com/GabooGauna/CanvasFlow.git`.
 - Convenciones base versionadas mediante `.gitignore`, `.gitattributes` y `.editorconfig`.
 - Frontend creado con React 19, TypeScript 6, Vite 8 y ESLint.
 - Dependencias administradas con npm y `package-lock.json` versionable.
@@ -50,23 +49,18 @@ La Etapa 00 — Planificación y Diseño del Producto está cerrada. La Etapa 01
 - Extensiones recomendadas: ESLint, Prettier, Tauri y rust-analyzer.
 - `npm run format:check`, `npm run lint`, `npm run typecheck`, `npm run build`, `npm run check` y `git diff --check` aprobados.
 
-## Entorno validado
+## Requisitos generales de desarrollo
 
-- Windows 11 Pro 24H2.
-- Node.js 24.18.0 y npm 11.5.2.
-- Git 2.51.0.windows.1.
-- VS Code 1.127.0 x64.
-- rustup 1.29.0.
-- rustc y cargo 1.97.0.
-- Toolchain `stable-x86_64-pc-windows-msvc`.
-- Visual Studio Community 2026.
-- Desarrollo para el escritorio con C++, MSVC x64 y Windows 11 SDK.
-- WebView2 provisto por Windows 11.
+- Windows como plataforma inicial de desarrollo y validación.
+- Versiones de Node.js y npm declaradas en `package.json`.
+- Rust mediante rustup con toolchain estable MSVC.
+- Visual Studio Build Tools con Desarrollo para el escritorio con C++, MSVC x64 y Windows SDK.
+- WebView2 disponible en el sistema.
 
 ## Configuración de Tauri confirmada
 
 - Producto y título: CanvasFlow.
-- Identifier: `com.cesargauna.canvasflow`.
+- Identifier: `com.canvasflow.app`.
 - `devUrl`: `http://localhost:5173`.
 - `frontendDist`: `../dist`.
 - `beforeDevCommand`: `npm run dev`.
@@ -82,15 +76,15 @@ La Etapa 00 — Planificación y Diseño del Producto está cerrada. La Etapa 01
 
 ### Prefix incorrecto de npm
 
-La configuración de usuario contenía un `prefix` basado en `%AppData%`. Se eliminó esa configuración incorrecta.
+La configuración local de npm contenía un `prefix` incorrecto. Se eliminó esa configuración para recuperar el comportamiento estándar de la herramienta.
 
 ### Rust no disponible en PATH
 
-Rust estaba instalado, pero la terminal no encontraba sus ejecutables. Se agregó `C:\Users\gauna\.cargo\bin` al PATH.
+Rust estaba instalado, pero la terminal no encontraba sus ejecutables. Se agregó `%USERPROFILE%\.cargo\bin` al PATH.
 
 ### `link.exe` no encontrado
 
-La terminal no había cargado el entorno MSVC x64. Se utilizó `vcvars64.bat` y se verificaron `cl.exe` y `link.exe` en `Hostx64\x64`.
+La terminal no había cargado el entorno MSVC x64. Se utilizó `vcvars64.bat` y se verificó la disponibilidad de `cl.exe` y `link.exe`.
 
 ### Error EBUSY durante la observación de Vite
 
