@@ -17,7 +17,8 @@ La Etapa 00 — Planificación y Diseño del Producto está cerrada. La Etapa 01
 - [x] 01.3 — React + TypeScript + Vite.
 - [x] 01.4 — Integración de Tauri.
 - [x] 01.5 — Tailwind CSS y base visual mínima.
-- [ ] 01.6 — Calidad automática y configuración compartida de VS Code.
+- [x] 01.6 — Calidad automática y configuración compartida de VS Code.
+- [ ] 01.7 — Estructura mínima del proyecto.
 
 ## Estado técnico del repositorio
 
@@ -37,6 +38,17 @@ La Etapa 00 — Planificación y Diseño del Producto está cerrada. La Etapa 01
 - `npm audit` completado con 0 vulnerabilidades.
 - `npm run lint` y `npm run build` aprobados.
 - Primera ejecución de `npm run tauri dev` exitosa.
+
+## Calidad automática
+
+- Prettier 3.9.5 y `eslint-config-prettier` 10.1.8 instalados con versiones exactas.
+- Prettier configurado para formato; ESLint reservado para calidad y errores de código.
+- TypeScript puede validarse de forma independiente mediante `npm run typecheck`.
+- Scripts disponibles: `format`, `format:check`, `typecheck` y `check`.
+- `npm run check` es el comando principal de validación y ejecuta `format:check`, `lint` y `build`.
+- Configuración compartida de VS Code preparada con formato al guardar, correcciones explícitas de ESLint, finales LF y TypeScript local.
+- Extensiones recomendadas: ESLint, Prettier, Tauri y rust-analyzer.
+- `npm run format:check`, `npm run lint`, `npm run typecheck`, `npm run build`, `npm run check` y `git diff --check` aprobados.
 
 ## Entorno validado
 
@@ -96,4 +108,4 @@ Vite se creó en la raíz no vacía conservando `docs/`. El README genérico de 
 
 ## Próximo checkpoint
 
-**01.6 — Calidad automática y configuración compartida de VS Code.**
+**01.7 — Estructura mínima del proyecto.**

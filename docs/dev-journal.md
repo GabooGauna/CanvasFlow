@@ -143,6 +143,63 @@ Esta limpieza redujo ruido y dejó en `src/` solamente los archivos utilizados p
 
 El checkpoint cerró con `npm run lint` y `npm run build` aprobados, además de validación visual en navegador y Tauri.
 
-## Estado al finalizar el checkpoint 01.5
+### Checkpoint 01.6 — Calidad automática y configuración compartida de VS Code
 
-Tailwind CSS y la base visual mínima están configurados. La Etapa 01 continúa activa y el siguiente checkpoint es **01.6 — Calidad automática y configuración compartida de VS Code**.
+Se instalaron Prettier 3.9.5 y `eslint-config-prettier` 10.1.8 como dependencias de desarrollo. Ambas versiones quedaron fijadas exactamente en `package.json` para que la experiencia de formato no cambie por una actualización implícita.
+
+La configuración de Prettier se centralizó en `.prettierrc.json` con punto y coma desactivado, comillas simples, comas finales, ancho máximo de 100 caracteres, indentación de dos espacios y finales de línea LF.
+
+`.prettierignore` excluye dependencias, builds, cobertura, el proyecto nativo de Tauri, lockfiles y la documentación. Esta última permanece fuera del formateo automático para evitar modificaciones masivas de texto que no aporten valor al código.
+
+`eslint-config-prettier` fue agregado como última configuración de ESLint para desactivar reglas de estilo que podrían entrar en conflicto con Prettier.
+
+#### Responsabilidades de las herramientas
+
+- **Prettier** normaliza el formato del código.
+- **ESLint** detecta problemas de calidad y errores mediante análisis estático.
+- **TypeScript** valida tipos y coherencia del programa.
+- **Vite** transforma y empaqueta la aplicación frontend.
+
+Mantener estas responsabilidades separadas evita configurar una herramienta para resolver problemas que pertenecen a otra y hace más clara la causa de cada fallo.
+
+#### Scripts de calidad
+
+Se incorporaron:
+
+- `npm run format`, para aplicar Prettier;
+- `npm run format:check`, para comprobar formato sin escribir;
+- `npm run typecheck`, para ejecutar TypeScript de forma independiente;
+- `npm run check`, como validación principal compuesta por `format:check`, `lint` y `build`.
+
+Se ejecutó `npm run format` para normalizar todos los archivos compatibles.
+
+#### Configuración compartida de VS Code
+
+Se creó `.vscode/settings.json` para utilizar la instalación recomendada de Prettier como formateador por defecto, aplicar formato al guardar, ejecutar correcciones explícitas de ESLint, conservar LF, eliminar espacios finales y utilizar la versión local de TypeScript.
+
+También se creó `.vscode/extensions.json` con recomendaciones para ESLint, Prettier, Tauri y rust-analyzer. Estas recomendaciones no instalan extensiones automáticamente, pero hacen explícito el entorno esperado para colaborar en el repositorio.
+
+#### Incidencia: formato inicial de `.vscode/settings.json`
+
+**Síntoma:** `format:check` detectó que `.vscode/settings.json` no cumplía las convenciones configuradas.
+
+**Causa:** el archivo se había creado con un formato diferente al resultado canónico de Prettier.
+
+**Solución:** se ejecutó Prettier sobre el archivo y se volvió a correr la validación.
+
+**Aprendizaje:** una configuración compartida también debe cumplir las reglas que establece. `format:check` permite detectar estas diferencias sin modificar archivos durante la validación.
+
+#### Validación final
+
+El checkpoint terminó con los siguientes comandos aprobados:
+
+- `npm run format:check`;
+- `npm run lint`;
+- `npm run typecheck`;
+- `npm run build`;
+- `npm run check`;
+- `git diff --check`.
+
+## Estado al finalizar el checkpoint 01.6
+
+El sistema de formato, análisis estático, validación de tipos, build y configuración compartida del editor está operativo. La Etapa 01 continúa activa y el siguiente checkpoint es **01.7 — Estructura mínima del proyecto**.

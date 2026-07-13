@@ -40,4 +40,15 @@ npm run tauri dev
 - `npm run lint`: ejecuta ESLint.
 - `npm run tauri dev`: inicia la aplicación de escritorio.
 
+## Calidad y validación
+
+```bash
+npm run format
+npm run format:check
+npm run typecheck
+npm run check
+```
+
+`npm run check` es la validación principal y comprueba formato, lint y build.
+
 La documentación del producto y de arquitectura se mantiene en [`docs/`](docs/).
