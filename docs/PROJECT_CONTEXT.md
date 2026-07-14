@@ -4,11 +4,11 @@ Documento maestro destinado a reunir la visión, el alcance y el contexto esenci
 
 ## Estado técnico
 
-La Etapa 00 — Planificación y Diseño del Producto y la Etapa 01 — Configuración Profesional del Proyecto están cerradas.
+La Etapa 00 — Planificación y Diseño del Producto y la Etapa 01 — Configuración Profesional del Proyecto están cerradas. La Etapa 02 — Arquitectura está en progreso.
 
 El repositorio está configurado con Git, utiliza la rama `main` y cuenta con una base técnica web y desktop reproducible y validada: React, TypeScript y Vite integrados con Tauri.
 
-La aplicación fue validada en navegador, como ventana nativa de Windows y mediante builds de producción. La siguiente etapa será la definición de arquitectura; la arquitectura completa de funcionalidades todavía no está implementada.
+La aplicación fue validada en navegador, como ventana nativa de Windows y mediante builds de producción. El modelo arquitectónico y la dirección de dependencias ya fueron documentados; la estructura definitiva de carpetas y el código funcional todavía no están implementados.
 
 El estado detallado se mantiene en [CURRENT_STATE.md](CURRENT_STATE.md).
 

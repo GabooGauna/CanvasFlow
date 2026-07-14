@@ -108,7 +108,12 @@ El proyecto compila correctamente y mantiene una estructura profesional.
 
 # Etapa 02 — Arquitectura
 
-**Estado: siguiente etapa.**
+**Estado: en progreso.**
+
+### Progreso real de la Etapa 02
+
+- [x] **02.1 — Modelo arquitectónico y dirección de dependencias.** Arquitectura modular orientada por funcionalidades y reglas de dependencia documentadas.
+- [ ] **02.2 — Límites de módulos y responsabilidades detalladas.** Siguiente checkpoint.
 
 ### Sprint 2 — Arquitectura base
 

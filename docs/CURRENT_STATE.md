@@ -2,15 +2,15 @@
 
 ## Etapa actual
 
-**Etapa 01 — Configuración Profesional del Proyecto (completada)**
+**Etapa 02 — Arquitectura**
 
 ## Estado
 
-🟢 Completado.
+🟡 En progreso.
 
-La Etapa 00 — Planificación y Diseño del Producto y la Etapa 01 — Configuración Profesional del Proyecto están cerradas.
+La Etapa 00 — Planificación y Diseño del Producto y la Etapa 01 — Configuración Profesional del Proyecto están cerradas. La Etapa 02 está en progreso.
 
-## Checkpoints
+## Historial de checkpoints — Etapa 01
 
 - [x] 01.1 — Auditoría del entorno.
 - [x] 01.2 — Repositorio profesional.
@@ -20,6 +20,17 @@ La Etapa 00 — Planificación y Diseño del Producto y la Etapa 01 — Configur
 - [x] 01.6 — Calidad automática y configuración compartida de VS Code.
 - [x] 01.7 — Estructura mínima del proyecto.
 - [x] 01.8 — Verificación final y cierre de la Etapa 01.
+
+## Checkpoints — Etapa 02
+
+- [x] 02.1 — Modelo arquitectónico y dirección de dependencias.
+- [ ] 02.2 — Límites de módulos y responsabilidades detalladas.
+
+## Estado de implementación
+
+El modelo arquitectónico fue diseñado y registrado, pero todavía no se crearon carpetas arquitectónicas ni código funcional.
+
+La estructura exacta de carpetas y las APIs públicas concretas permanecen diferidas hasta que existan límites y código real que las justifiquen.
 
 ## Estado técnico del repositorio
 
@@ -138,8 +149,6 @@ Vite se creó en la raíz no vacía conservando `docs/`. El README genérico de 
 - `src-tauri/target` debe permanecer fuera de la observación de Vite.
 - Las herramientas deberán respetar las versiones declaradas para evitar diferencias de entorno.
 
-## Próxima etapa
+## Próximo checkpoint
 
-**Etapa 02 — Arquitectura.**
-
-La arquitectura completa de funcionalidades todavía no fue implementada y se definirá durante esta etapa.
+**02.2 — Límites de módulos y responsabilidades detalladas.**

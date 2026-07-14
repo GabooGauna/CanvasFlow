@@ -55,88 +55,79 @@ Las funciones principales no dependerán de Internet. En la V1 no existirán ser
 | Estado global | Zustand solo para estado compartido | Aceptada provisionalmente — ADR-006 |
 | Motor visual | Excalidraw | Aceptada provisionalmente — ADR-007 |
 | Drag and drop | dnd-kit | Aceptada provisionalmente — ADR-008 |
+| Organización arquitectónica | Módulos funcionales con separación interna ligera | Aceptada — ADR-009 |
 
 Las decisiones provisionales deberán validarse con pruebas técnicas antes de consolidarse. Un ADR conserva autoridad sobre el estado y las consecuencias de cada decisión.
 
-## 5. Modelo arquitectónico
+## 5. Modelo arquitectónico aceptado
 
-CanvasFlow seguirá una arquitectura modular con dependencias dirigidas hacia el dominio y contratos explícitos en los límites externos.
+CanvasFlow utilizará una arquitectura modular orientada por funcionalidades, según [ADR-009](adr/009-modular-feature-oriented-architecture.md).
+
+Los módulos funcionales serán el criterio principal de organización. Dentro de cada módulo podrá existir una separación ligera entre presentación, aplicación, dominio e infraestructura cuando el código real lo justifique. Estas responsabilidades no obligan a crear cuatro carpetas por módulo.
+
+La decisión está documentada, pero todavía no se implementó una estructura arquitectónica definitiva en `src/`.
+
+### Dirección de dependencias
+
+Las flechas siguientes significan “depende de”:
 
 ```text
-┌───────────────────────────────────────────────┐
-│ Presentación                                 │
-│ App Shell · Workspace · Kanban · Canvas UI   │
-└──────────────────────┬────────────────────────┘
-                       │ acciones y consultas
-┌──────────────────────▼────────────────────────┐
-│ Aplicación / Estado                          │
-│ coordinación de casos de uso y estado común  │
-└──────────────────────┬────────────────────────┘
-                       │ contratos
-┌──────────────────────▼────────────────────────┐
-│ Dominio                                      │
-│ entidades · invariantes · reglas de negocio  │
-└──────────────────────┬────────────────────────┘
-                       │ puertos
-┌──────────────────────▼────────────────────────┐
-│ Infraestructura                              │
-│ persistencia · archivos · Tauri · adaptadores│
-└───────────────────────────────────────────────┘
+Presentación ───────────────▶ Aplicación ───────────────▶ Dominio
+                                  ▲                         ▲
+                                  │ implementa contratos    │ usa tipos
+                                  │                         │
+                           Infraestructura ──────────────────┘
+
+App Shell / punto de composición ─▶ Presentación
+App Shell / punto de composición ─▶ Aplicación
+App Shell / punto de composición ─▶ Infraestructura
 ```
 
-La interfaz podrá depender de capacidades de aplicación y tipos de dominio. El dominio no deberá depender de React, Zustand, Dexie, IndexedDB, Excalidraw, dnd-kit ni Tauri.
+El dominio queda en el centro de las dependencias y no depende de infraestructura. Infraestructura puede depender de contratos internos y de tipos de dominio para implementar persistencia, archivos o capacidades nativas.
 
-## 6. Módulos previstos
+### Responsabilidades internas
+
+- **Presentación:** expresa intenciones del usuario y administra la interfaz.
+- **Aplicación:** coordina casos de uso, reglas de secuencia y contratos necesarios para completarlos.
+- **Dominio:** contiene conceptos, reglas e invariantes propios de CanvasFlow.
+- **Infraestructura:** implementa capacidades técnicas mediante adaptadores concretos.
+- **Estado compartido:** representa datos observables en memoria y no constituye por sí mismo una capa de aplicación ni una confirmación de persistencia.
+
+## 6. Módulos y capacidades conceptuales
+
+Los límites detallados se definirán en el checkpoint 02.2. En este momento solo se reconoce la siguiente dirección general, sin afirmar que existan carpetas o APIs implementadas.
 
 ### App Shell
 
-Responsable del arranque, layout principal, navegación de alto nivel, tema, límites de error y composición de módulos.
+Será responsable del arranque, layout general, navegación de alto nivel y composición de módulos. Contendrá o coordinará el punto de composición donde se conectan casos de uso, contratos y adaptadores.
 
-No deberá contener reglas de negocio de Projects, Boards o Board Items.
+No contendrá reglas de negocio de Projects, Boards o Board Items.
 
-### Workspace
+### Módulos funcionales
 
-Responsable del Workspace local implícito y de los flujos para listar, crear, abrir y eliminar Projects, además de acceder a sus Boards.
+Workspace, Kanban y Canvas representan capacidades funcionales confirmadas por el producto. Su delimitación exacta, sus responsabilidades detalladas y sus APIs públicas se decidirán en los siguientes checkpoints.
 
-En la V1 no habrá gestión manual de Workspaces.
-
-### Kanban
-
-Responsable de Boards, Columns, Board Items, ordenamiento, movimiento, Preview, búsqueda dentro del Project y operaciones comunes del tablero.
-
-Trabajará con el concepto general Board Item. Card y Canvas no se almacenarán como colecciones independientes dentro de una Column.
-
-### Canvas
-
-Responsable de abrir y editar un Canvas, integrar Excalidraw, conservar escenas independientes y generar o actualizar Thumbnail.
-
-Los Canvas Elements pertenecen al Canvas y no forman parte directa de una Column.
-
-### Storage
-
-Responsable de implementar contratos de persistencia, Autosave, recuperación, migraciones, transacciones y comunicación de errores de guardado.
-
-Dexie e IndexedDB son la propuesta provisional para datos estructurados. La estrategia de PDF, imágenes, escenas y Thumbnail deberá validarse antes de considerarse definitiva.
+Los módulos se comunicarán mediante APIs públicas pequeñas y no accederán arbitrariamente a detalles internos de otros módulos.
 
 ### Shared UI
 
-Contendrá componentes visuales reutilizables, patrones de interacción, estados de carga, vacío y error, confirmaciones, acciones de deshacer y fundamentos de accesibilidad.
+Podrá reunir componentes y patrones visuales realmente compartidos. No contendrá reglas específicas de Workspace, Kanban o Canvas.
 
-No deberá conocer reglas específicas del dominio.
+### Storage
+
+Storage es una capacidad de infraestructura, no un dominio funcional equivalente a Workspace, Kanban o Canvas.
+
+Implementará las operaciones de persistencia solicitadas: lecturas, escrituras, transacciones, recuperación y migraciones. También traducirá o propagará los fallos técnicos mediante resultados o errores apropiados.
+
+Storage no decidirá cuándo guardar, la frecuencia o agrupación de los guardados, ni representará estados visuales o comunicará errores directamente al usuario. La capa de aplicación coordinará la política de Autosave, infraestructura ejecutará la persistencia solicitada y presentación representará el estado resultante.
+
+Los adaptadores de persistencia utilizarán provisionalmente Dexie como capa de acceso a IndexedDB. Dexie no constituye por sí mismo un adaptador arquitectónico de CanvasFlow. La estrategia de PDF, imágenes, escenas y Thumbnail requiere validación específica.
 
 ### Settings
 
-Responsable de preferencias locales de la aplicación, incluido el modo oscuro. Su alcance inicial será deliberadamente pequeño.
+Settings permanece como capacidad conceptual pendiente de delimitación durante el checkpoint 02.2; todavía no se confirma como módulo independiente.
 
-### Core
-
-Contendrá capacidades transversales estables: tipos compartidos mínimos, generación de identidad, manejo común de errores y contratos que no pertenezcan a un módulo funcional concreto.
-
-No deberá convertirse en un contenedor genérico de lógica sin dueño.
-
-### Future / Notes
-
-Reserva conceptual para una futura capacidad de notas enriquecidas. No se implementará en la V1 ni deberá condicionar prematuramente el diseño actual.
+No se crearán módulos ni carpetas reservadas para Notes, Sync, Collaboration u otras capacidades futuras mientras no exista alcance y código real que los justifique.
 
 ## 7. Modelo de dominio central
 
@@ -165,35 +156,45 @@ La representación técnica de Board Item todavía no está decidida: podrá eva
 
 ## 8. Reglas de dependencia
 
-1. Los componentes de React no accederán directamente a IndexedDB, Dexie ni APIs de archivos.
-2. Las reglas de dominio no importarán librerías de interfaz o infraestructura.
-3. Los módulos se comunicarán mediante APIs públicas y contratos explícitos, no mediante acceso arbitrario a sus detalles internos.
-4. El estado local permanecerá en el componente cuando no necesite coordinación externa.
-5. Zustand, si supera su validación, contendrá solamente estado compartido y se dividirá por responsabilidades de dominio.
-6. Excalidraw quedará encapsulado detrás del módulo Canvas.
-7. dnd-kit quedará encapsulado en las interacciones de Kanban y no definirá el modelo persistente de orden.
-8. Tauri y el acceso al sistema operativo se utilizarán mediante adaptadores con permisos mínimos.
+1. El dominio no dependerá de React, Zustand, Dexie, IndexedDB, Excalidraw, dnd-kit, Tauri ni de infraestructura.
+2. Presentación podrá depender de aplicación y de tipos expuestos por el dominio, pero no accederá directamente a Dexie, IndexedDB ni APIs nativas.
+3. Aplicación podrá depender del dominio y de contratos internos; no dependerá de implementaciones concretas de infraestructura.
+4. Infraestructura podrá depender de contratos internos y tipos de dominio para implementarlos.
+5. Los módulos se comunicarán mediante APIs públicas pequeñas, no mediante acceso arbitrario a detalles internos.
+6. El estado visual local permanecerá en React cuando no necesite coordinación externa.
+7. Zustand, si supera su validación provisional, se reservará para estado compartido observable en memoria.
+8. Excalidraw quedará encapsulado detrás de la capacidad Canvas.
+9. dnd-kit quedará encapsulado en las interacciones de Kanban y no definirá el modelo persistente de orden.
+10. Tauri y el acceso al sistema operativo se utilizarán mediante adaptadores con permisos mínimos.
+11. Los contratos se introducirán únicamente cuando protejan una frontera real.
+12. No se incorporarán contenedores de inyección de dependencias, CQRS, event buses, repositorios genéricos ni abstracciones de sincronización durante esta etapa.
 
-## 9. Estado y flujo de datos
+## 9. Flujo de ejecución y estado
+
+La dirección de dependencias describe relaciones estáticas entre código. El flujo de ejecución describe la secuencia que ocurre en tiempo de ejecución y puede atravesar esas fronteras mediante contratos.
+
+### Ejemplo conceptual: crear Project
 
 ```text
-Interacción del usuario
-        │
-        ▼
-Acción o caso de uso
-        │
-        ├── valida reglas de dominio
-        ├── actualiza estado observable
-        └── solicita persistencia
-                    │
-                    ▼
-             Adaptador Storage
-                    │
-                    ▼
-              Datos locales
+React
+  └──▶ caso de uso Crear Project
+         ├──▶ dominio
+         └──▶ contrato de persistencia
+                └──▶ adaptador de persistencia de CanvasFlow
+                       └──▶ Dexie
+                              └──▶ IndexedDB
 ```
 
-La interfaz deberá representar los estados `Guardando…`, `Guardado` y `Error al guardar` sin confundir estado visual con confirmación real de persistencia.
+Aunque la ejecución llegue al adaptador de persistencia, la aplicación y el dominio no dependen de su implementación concreta. El adaptador implementa el contrato definido hacia el interior y utiliza provisionalmente Dexie como capa de acceso a IndexedDB.
+
+### Responsabilidades de herramientas y estado
+
+- **React:** presentación, interacción y estado visual local.
+- **Zustand:** estado compartido observable en memoria cuando sea necesario; no sustituye dominio, casos de uso ni persistencia.
+- **Dexie:** capa provisional de acceso a IndexedDB utilizada por los adaptadores de persistencia de CanvasFlow.
+- **Tauri:** adaptadores para capacidades del sistema operativo y aplicación de permisos mínimos.
+
+Actualizar React o un store de Zustand no equivale a confirmar que los datos fueron persistidos. La interfaz deberá representar los estados `Guardando…`, `Guardado` y `Error al guardar` según el resultado real de persistencia.
 
 No todo dato persistente deberá duplicarse en un store global. El diseño exacto de stores, cachés y consultas se decidirá al implementar los primeros flujos verticales.
 
@@ -201,14 +202,22 @@ No todo dato persistente deberá duplicarse en un store global. El diseño exact
 
 La persistencia deberá cubrir Projects, Boards, Columns, Board Items, orden, personalización, escenas de Canvas, Thumbnail y Attachments.
 
-Principios:
+La capa de aplicación coordinará el Autosave: decidirá cuándo solicitar un guardado y cómo manejar su frecuencia o agrupación. Infraestructura ejecutará las operaciones de persistencia solicitadas y presentación mostrará los estados `Guardando…`, `Guardado` o `Error al guardar` según el resultado recibido.
 
-- la capa Storage será independiente de la interfaz;
-- las operaciones relacionadas deberán usar transacciones cuando corresponda;
-- los cambios comunes se guardarán automáticamente;
-- un error de escritura deberá comunicarse y no marcarse como éxito;
+Storage se tratará como capacidad de infraestructura y será responsable de:
+
+- implementar operaciones de persistencia;
+- realizar lecturas y escrituras;
+- utilizar transacciones cuando corresponda;
+- recuperar datos persistidos;
+- ejecutar migraciones versionadas;
+- traducir o propagar fallos técnicos mediante resultados o errores apropiados;
+- permanecer independiente de la interfaz.
+
+Además:
+
+- un error de escritura no deberá interpretarse como éxito;
 - las entidades persistentes tendrán identificadores generables localmente, fecha de creación y fecha de modificación;
-- los cambios de esquema deberán resolverse mediante migraciones versionadas;
 - PDF e imágenes se tratarán como contenido externo y se abrirán mediante mecanismos seguros de la plataforma.
 
 La estrategia concreta para archivos pesados, escenas y Thumbnail permanece pendiente de la prueba técnica indicada en ADR-004.
@@ -229,7 +238,7 @@ La integración deberá:
 
 - mantener una escena independiente por Canvas;
 - encapsular el formato externo dentro del módulo Canvas;
-- guardar cambios mediante Autosave;
+- solicitar el guardado mediante el flujo de Autosave coordinado por la capa de aplicación;
 - generar o actualizar Thumbnail después de cambios relevantes;
 - evitar cargar escenas, imágenes o miniaturas cuando no sean necesarias;
 - mantener fuera colaboración, IA, plugins y herramientas personalizadas para la V1.
@@ -310,6 +319,7 @@ No se introducirán abstracciones de red sin un caso de uso aprobado.
 Permanecen abiertas para sus etapas técnicas:
 
 - estructura exacta de carpetas y APIs públicas de módulos;
+- límites detallados y APIs públicas concretas de Workspace, Kanban y Canvas;
 - representación de Board Item en TypeScript;
 - esquema e índices de IndexedDB;
 - estrategia de ordenamiento persistente;
