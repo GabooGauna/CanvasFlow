@@ -114,7 +114,7 @@ El proyecto compila correctamente y mantiene una estructura profesional.
 
 - [x] **02.1 — Modelo arquitectónico y dirección de dependencias.** Arquitectura modular orientada por funcionalidades y reglas de dependencia documentadas.
 - [x] **02.2 — Límites de módulos y responsabilidades detalladas.** Propiedad, fronteras y comunicación entre módulos documentadas.
-- [ ] **02.3 — Dominio y primer flujo vertical.** Siguiente checkpoint.
+- [ ] **02.3 — Dominio y primer flujo vertical.** Diseño conceptual en progreso.
 
 ### Sprint 2 — Arquitectura base
 

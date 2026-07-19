@@ -51,18 +51,33 @@ Ejemplos:
 * un proyecto de software;
 * una actividad personal.
 
+Datos conceptuales iniciales:
+
+* `id`;
+* `name`;
+* `createdAt`;
+* `updatedAt`.
+
 Responsabilidades:
 
 * tener un nombre;
-* contener uno o varios Boards;
+* relacionarse con cero o más Boards;
 * definir el alcance de búsqueda de la versión 1.0;
 * agrupar información relacionada.
 
 Reglas:
 
-* un Project debe tener un identificador único;
+* su identidad debe ser local, estable y única;
+* el primer flujo utilizará un UUID generado localmente para identificarlo;
 * un Project puede existir sin Boards;
 * un Project puede contener múltiples Boards;
+* el nombre se normaliza eliminando espacios en blanco iniciales y finales y reemplazando cada secuencia interna de espacios en blanco por un único espacio;
+* los espacios en blanco incluyen espacios, tabulaciones, saltos de línea y otros caracteres equivalentes, por lo que el nombre normalizado queda en una sola línea;
+* después de la normalización, el nombre debe contener entre 1 y 100 caracteres;
+* diferentes Projects pueden tener el mismo nombre porque su identidad depende de `id`;
+* al crear un Project, `createdAt` y `updatedAt` representan exactamente el mismo instante;
+* las fechas se representan inicialmente como instantes ISO 8601 en UTC;
+* `id` y `createdAt` no cambian durante el ciclo de vida del Project;
 * eliminar un Project elimina su contenido asociado después de una confirmación explícita.
 
 ### Board
@@ -282,7 +297,9 @@ Cada entidad persistente deberá tener un identificador único que no dependa de
 
 Los identificadores deberán poder generarse localmente.
 
-La estrategia exacta se decidirá durante la implementación, evaluando alternativas como UUID o identificadores equivalentes.
+Para el primer flujo de Project se utilizará un UUID generado localmente. Esta decisión se limita a Project y no determina automáticamente la representación de identidad del resto de las entidades.
+
+La estrategia exacta para las demás entidades permanece diferida.
 
 ## 8. Fechas y sincronización futura
 
@@ -290,6 +307,8 @@ Las entidades modificables deberán registrar:
 
 * fecha de creación;
 * fecha de última modificación.
+
+En Project, ambas fechas representan instantes ISO 8601 en UTC y contienen exactamente el mismo instante al crearse. `createdAt` permanece inmutable; `updatedAt` representa el instante de la última modificación.
 
 Estas propiedades ayudarán a preparar el sistema para sincronización futura.
 
@@ -332,20 +351,24 @@ La generación y almacenamiento exactos de las Thumbnail se decidirán durante e
 
 Las siguientes reglas deberán mantenerse siempre:
 
-1. Un Board pertenece a un Project.
-2. Una Column pertenece a un Board.
-3. Un Board Item pertenece a una Column.
-4. Un Board Item no puede pertenecer simultáneamente a varias Columns.
-5. No existirán Board Items sin Column en la V1.
-6. Una Card debe tener un título no vacío.
-7. Cada Canvas mantiene contenido visual independiente.
-8. El orden de Columns y Board Items debe persistir.
-9. Un Attachment debe tener un Board Item propietario.
-10. Un Canvas Element pertenece a un Canvas y no a una Column.
-11. La eliminación de un Project requiere confirmación explícita.
-12. La eliminación de un Board requiere confirmación explícita.
-13. La eliminación de una Column con contenido requiere confirmación explícita.
-14. La eliminación de Card y Canvas debe permitir una acción temporal de deshacer.
+1. Un Project debe tener una identidad local válida y estable.
+2. El nombre normalizado de un Project debe contener entre 1 y 100 caracteres.
+3. Al crear un Project, `createdAt` y `updatedAt` deben representar exactamente el mismo instante.
+4. `id` y `createdAt` no cambian durante el ciclo de vida de Project.
+5. Un Board pertenece a un Project.
+6. Una Column pertenece a un Board.
+7. Un Board Item pertenece a una Column.
+8. Un Board Item no puede pertenecer simultáneamente a varias Columns.
+9. No existirán Board Items sin Column en la V1.
+10. Una Card debe tener un título no vacío.
+11. Cada Canvas mantiene contenido visual independiente.
+12. El orden de Columns y Board Items debe persistir.
+13. Un Attachment debe tener un Board Item propietario.
+14. Un Canvas Element pertenece a un Canvas y no a una Column.
+15. La eliminación de un Project requiere confirmación explícita.
+16. La eliminación de un Board requiere confirmación explícita.
+17. La eliminación de una Column con contenido requiere confirmación explícita.
+18. La eliminación de Card y Canvas debe permitir una acción temporal de deshacer.
 
 ## 11. Decisiones diferidas
 

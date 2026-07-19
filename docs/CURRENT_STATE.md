@@ -25,13 +25,13 @@ La Etapa 00 — Planificación y Diseño del Producto y la Etapa 01 — Configur
 
 - [x] 02.1 — Modelo arquitectónico y dirección de dependencias.
 - [x] 02.2 — Límites de módulos y responsabilidades detalladas.
-- [ ] 02.3 — Dominio y primer flujo vertical.
+- [ ] 02.3 — Dominio y primer flujo vertical (en progreso).
 
 ## Estado de implementación
 
-El modelo arquitectónico, la dirección de dependencias y los límites de módulos fueron diseñados y registrados, pero todavía no se crearon carpetas arquitectónicas ni código funcional.
+El modelo arquitectónico, la dirección de dependencias y los límites de módulos fueron diseñados y registrados. Dentro de 02.3 se definió el diseño conceptual inicial de Project y del flujo Crear Project.
 
-Las decisiones de los checkpoints 02.1 y 02.2 son documentales. La estructura física de carpetas, los exports y las APIs públicas concretas permanecen diferidos hasta que el primer flujo vertical aporte código real para validarlos.
+Las decisiones actuales son documentales. Todavía no existen código funcional, contratos TypeScript ni adaptador de persistencia para este flujo. La estructura física, los exports y las APIs públicas concretas permanecen diferidos hasta que el código real permita validarlos.
 
 ## Estado técnico del repositorio
 
@@ -150,6 +150,6 @@ Vite se creó en la raíz no vacía conservando `docs/`. El README genérico de 
 - `src-tauri/target` debe permanecer fuera de la observación de Vite.
 - Las herramientas deberán respetar las versiones declaradas para evitar diferencias de entorno.
 
-## Próximo checkpoint
+## Siguiente paso del checkpoint 02.3
 
-**02.3 — Dominio y primer flujo vertical.**
+Crear la representación TypeScript mínima de Project y del caso de uso Crear Project, y validar las decisiones conceptuales mediante pruebas.

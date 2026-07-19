@@ -212,34 +212,84 @@ La representación técnica de Board Item todavía no está decidida: podrá eva
 11. Los contratos se introducirán únicamente cuando protejan una frontera real.
 12. No se incorporarán contenedores de inyección de dependencias, CQRS, event buses, repositorios genéricos ni abstracciones de sincronización durante esta etapa.
 
-## 9. Flujo de ejecución y estado
+## 9. Primer flujo vertical: Crear Project
 
-La dirección de dependencias describe relaciones estáticas entre código. El flujo de ejecución describe la secuencia que ocurre en tiempo de ejecución y puede atravesar esas fronteras mediante contratos.
+El diseño conceptual inicial del flujo Crear Project está definido, pero todavía no existen implementación funcional, contratos TypeScript ni adaptadores de persistencia.
 
-### Ejemplo conceptual: crear Project
+La dirección de dependencias describe relaciones estáticas entre código. El flujo de ejecución describe la secuencia que ocurre en tiempo de ejecución y puede atravesar esas fronteras mediante contratos sustituibles.
+
+### Representación inicial de Project
+
+Project pertenece a Workspace y tendrá conceptualmente `id`, `name`, `createdAt` y `updatedAt`.
+
+La representación TypeScript inicial prevista utilizará un `type` para los datos y funciones puras de dominio para normalizar, validar y construir Projects válidos. No se exigirá una clase. Esta elección deberá validarse al escribir el código y las pruebas del primer flujo.
+
+Para Project se utilizará inicialmente un UUID generado localmente. Esta decisión no generaliza la representación de identidad del resto de las entidades.
+
+`createdAt` y `updatedAt` representarán instantes ISO 8601 en UTC y serán iguales al crear el Project. La identidad y `createdAt` permanecerán estables durante modificaciones futuras.
+
+El dominio no dependerá de React, Dexie, IndexedDB, Zustand, Tauri ni de APIs del entorno para generar identidad u obtener la hora.
+
+### Responsabilidades del flujo
+
+| Responsabilidad | Comportamiento |
+| --- | --- |
+| Presentación | Obtiene el nombre y representa los estados de la operación. |
+| Aplicación | Coordina Crear Project, solicita identidad y hora, invoca al dominio y solicita persistencia. |
+| Dominio | Normaliza y valida el nombre, y construye un Project válido. |
+| Infraestructura | Ejecuta la operación de persistencia solicitada mediante un adaptador concreto. |
+
+El caso de uso recibirá dependencias sustituibles para generar el UUID y obtener el instante actual. Estas capacidades permanecerán junto al flujo que las consume; no se crearán módulos Core ni servicios genéricos de identidad o reloj.
+
+### Flujo de ejecución conceptual
 
 ```text
-React
+Presentación
   └──▶ caso de uso Crear Project
-         ├──▶ dominio
-         └──▶ contrato de persistencia
+         ├──▶ generador de identidad y reloj sustituibles
+         ├──▶ funciones de dominio
+         │      └── normalizan, validan y construyen Project
+         └──▶ contrato mínimo para agregar Project
                 └──▶ adaptador de persistencia de CanvasFlow
                        └──▶ Dexie
                               └──▶ IndexedDB
 ```
 
-Aunque la ejecución llegue al adaptador de persistencia, la aplicación y el dominio no dependen de su implementación concreta. El adaptador implementa el contrato definido hacia el interior y utiliza provisionalmente Dexie como capa de acceso a IndexedDB.
+Aunque la ejecución llegue al adaptador de persistencia, aplicación y dominio no dependen de esa implementación concreta. El adaptador implementará el contrato definido hacia el interior y utilizará provisionalmente Dexie como capa de acceso a IndexedDB.
 
-### Responsabilidades de herramientas y estado
+### Contrato mínimo y resultado
+
+El contrato inicial de persistencia solo necesitará agregar un Project. Su operación tendrá semántica de `add`: si la identidad ya existe, deberá fallar y nunca sobrescribir silenciosamente mediante `upsert`.
+
+Durante este flujo no se agregarán operaciones para listar, obtener, renombrar o eliminar Projects.
+
+El caso de uso devolverá un resultado explícito de éxito o error. Los errores iniciales serán:
+
+- nombre vacío después de normalizar;
+- nombre superior a 100 caracteres después de normalizar;
+- fallo de persistencia, incluida una colisión de identidad al agregar.
+
+No existirá un error de nombre duplicado porque diferentes Projects pueden compartir el mismo nombre.
+
+### Estrategia inicial de pruebas
+
+- probar de forma pura la normalización y validación del nombre;
+- probar el caso de uso con identidad, reloj y persistencia controlados;
+- comprobar que una entrada inválida no solicita persistencia;
+- comprobar que una entrada válida se persiste exactamente una vez;
+- comprobar que un fallo técnico produce un resultado de error y nunca se comunica como éxito;
+- incorporar pruebas del adaptador Dexie únicamente cuando exista el adaptador real.
+
+### Herramientas y estado compartido
 
 - **React:** presentación, interacción y estado visual local.
 - **Zustand:** estado compartido observable en memoria cuando sea necesario; no sustituye dominio, casos de uso ni persistencia.
 - **Dexie:** capa provisional de acceso a IndexedDB utilizada por los adaptadores de persistencia de CanvasFlow.
 - **Tauri:** adaptadores para capacidades del sistema operativo y aplicación de permisos mínimos.
 
-Actualizar React o un store de Zustand no equivale a confirmar que los datos fueron persistidos. La interfaz deberá representar los estados `Guardando…`, `Guardado` y `Error al guardar` según el resultado real de persistencia.
+Actualizar React o un store de Zustand no equivale a confirmar que los datos fueron persistidos. La interfaz deberá representar los estados de la operación según el resultado real de persistencia.
 
-No todo dato persistente deberá duplicarse en un store global. El diseño exacto de stores, cachés y consultas se decidirá al implementar los primeros flujos verticales.
+No todo dato persistente deberá duplicarse en un store global. El diseño exacto de stores, cachés y consultas se decidirá al implementar flujos verticales reales.
 
 ## 10. Persistencia local y Autosave
 

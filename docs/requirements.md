@@ -12,7 +12,15 @@ Los requisitos funcionales describen las acciones que el usuario podrá realizar
 
 El usuario debe poder crear un nuevo proyecto dentro de CanvasFlow.
 
-Cada proyecto funcionará como un espacio de organización independiente y podrá contener uno o varios tableros.
+Al crearlo, el usuario deberá asignarle un nombre. CanvasFlow normalizará ese nombre eliminando los espacios en blanco iniciales y finales y reemplazando cada secuencia interna de espacios en blanco por un único espacio.
+
+Los espacios en blanco incluyen espacios, tabulaciones, saltos de línea y otros caracteres equivalentes. El nombre normalizado quedará en una sola línea y una entrada compuesta únicamente por espacios en blanco quedará vacía.
+
+Después de normalizarse, el nombre deberá contener entre 1 y 100 caracteres. Si queda vacío o supera el máximo permitido, el proyecto no deberá crearse y la interfaz deberá informar el error.
+
+Se permitirán varios proyectos con el mismo nombre.
+
+Cada proyecto funcionará como un espacio de organización independiente, podrá existir sin tableros y podrá relacionarse posteriormente con múltiples tableros.
 
 ### RF-01.2 — Visualizar proyectos existentes
 
