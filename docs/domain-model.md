@@ -200,22 +200,34 @@ Reglas:
 
 Representa un archivo asociado a un Board Item.
 
-Datos conceptuales:
+Metadatos conceptuales:
 
 * identificador;
 * Board Item propietario;
 * nombre original;
 * tipo de archivo;
-* referencia local;
 * tamaño;
-* fecha de incorporación.
+* fecha de incorporación;
+* referencia al contenido físico, si la estrategia de almacenamiento finalmente la requiere.
+
+Los metadatos describen y relacionan el Attachment dentro del dominio. El contenido físico es el archivo almacenado o referenciado por infraestructura y no forma parte de esos metadatos.
 
 Reglas:
 
 * un Attachment pertenece a un único Board Item;
 * un Board Item puede tener varios Attachments;
-* en la V1 se soportarán explícitamente archivos PDF;
-* eliminar un Board Item elimina la asociación y sus recursos locales correspondientes.
+* en la V1 se admitirán `.pdf`, `.doc`, `.docx` y `.txt`;
+* PDF, Word y texto plano no se modelarán mediante subtipos separados;
+* un Attachment podrá asociarse a una Card o un Canvas;
+* un Attachment deberá poder identificarse por nombre, tipo y tamaño;
+* los Attachments se abrirán externamente con la aplicación predeterminada del sistema operativo;
+* la V1 no editará, convertirá ni buscará dentro del contenido de los Attachments;
+* eliminar un Attachment siempre elimina su asociación con el Board Item;
+* si el contenido físico es una copia administrada por CanvasFlow, esa copia podrá eliminarse junto con la asociación;
+* si el contenido físico es el archivo original referenciado, eliminar el Attachment no deberá borrar ni modificar ese archivo;
+* eliminar un Board Item elimina las asociaciones con sus Attachments y respeta las mismas reglas sobre el contenido físico.
+
+La estrategia física permanece diferida. Todavía no se decide entre almacenar el contenido en IndexedDB, crear una copia administrada mediante Tauri o conservar una referencia al archivo original, ni se define una papelera o recuperación persistente.
 
 ## 4. Relaciones
 
@@ -344,7 +356,7 @@ Todavía no se define:
 * la estrategia concreta para ordenar elementos;
 * el formato de almacenamiento de escenas de Excalidraw;
 * el formato y frecuencia de generación de Thumbnail;
-* el almacenamiento físico de PDF e imágenes;
+* el almacenamiento físico de Attachments e imágenes;
 * la estrategia de sincronización remota;
 * la resolución de conflictos;
 * el versionado del esquema de persistencia;

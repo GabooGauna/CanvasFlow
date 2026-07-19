@@ -14,7 +14,7 @@ Un estudiante debe poder:
 2. crear un Project para una materia o actividad;
 3. crear uno o varios Boards;
 4. crear y organizar Columns;
-5. crear Cards con título, descripción, color y PDF adjuntos;
+5. crear Cards con título, descripción, color y Attachments;
 6. crear Canvas independientes;
 7. dibujar y escribir dentro de cada Canvas;
 8. visualizar una miniatura de cada Canvas en el Board;
@@ -31,7 +31,7 @@ La V1 se considerará funcionalmente completa cuando:
 - los Board Items puedan organizarse y moverse correctamente;
 - cada Canvas mantenga contenido independiente;
 - las miniaturas se actualicen correctamente;
-- los PDF puedan adjuntarse, abrirse y eliminarse;
+- los Attachments PDF, Word y de texto plano puedan adjuntarse, identificarse, listarse, abrirse externamente y eliminarse;
 - la búsqueda encuentre resultados relevantes;
 - el guardado automático funcione;
 - la aplicación recupere el estado persistido.

@@ -56,6 +56,7 @@ Las funciones principales no dependerán de Internet. En la V1 no existirán ser
 | Motor visual | Excalidraw | Aceptada provisionalmente — ADR-007 |
 | Drag and drop | dnd-kit | Aceptada provisionalmente — ADR-008 |
 | Organización arquitectónica | Módulos funcionales con separación interna ligera | Aceptada — ADR-009 |
+| Límites funcionales | Propiedad explícita de módulos y APIs públicas pequeñas | Aceptada — ADR-010 |
 
 Las decisiones provisionales deberán validarse con pruebas técnicas antes de consolidarse. Un ADR conserva autoridad sobre el estado y las consecuencias de cada decisión.
 
@@ -93,41 +94,83 @@ El dominio queda en el centro de las dependencias y no depende de infraestructur
 - **Infraestructura:** implementa capacidades técnicas mediante adaptadores concretos.
 - **Estado compartido:** representa datos observables en memoria y no constituye por sí mismo una capa de aplicación ni una confirmación de persistencia.
 
-## 6. Módulos y capacidades conceptuales
+## 6. Límites de módulos y capacidades
 
-Los límites detallados se definirán en el checkpoint 02.2. En este momento solo se reconoce la siguiente dirección general, sin afirmar que existan carpetas o APIs implementadas.
+Los límites funcionales fueron documentados en [ADR-010](adr/010-functional-module-boundaries.md). Todavía no existe una estructura física de módulos en `src/`, ni se definieron carpetas, archivos `index.ts` o exports públicos concretos.
 
-### App Shell
+### Matriz de propiedad
 
-Será responsable del arranque, layout general, navegación de alto nivel y composición de módulos. Contendrá o coordinará el punto de composición donde se conectan casos de uso, contratos y adaptadores.
+| Módulo o capacidad | Propiedad confirmada | No posee |
+| --- | --- | --- |
+| App Shell | Arranque, composición, navegación de alto nivel, aplicación del tema y límites generales de error | Reglas de Projects, Boards, Board Items o Canvas |
+| Workspace | Workspace local implícito y ciclo de vida de Projects | Detalles internos de Kanban |
+| Kanban | Boards, Columns, Board Items, Cards, pertenencia, posición, movimiento, drag and drop, asociación y metadatos de Attachments, y Search de la V1 | Escenas, edición visual o tipos internos de Excalidraw |
+| Canvas | Escenas, contenido visual, integración con Excalidraw, edición y generación de Thumbnail | Stores, tablas o detalles internos de Kanban |
+| Settings | Preferencias globales; inicialmente, modo oscuro | Preferencias específicas de otros módulos |
+| Shared UI | Componentes y patrones visuales genéricos, accesibles y realmente reutilizables | Reglas o entidades funcionales |
 
-No contendrá reglas de negocio de Projects, Boards o Board Items.
+### Frontera Workspace y Kanban
 
-### Módulos funcionales
+El modelo de dominio conserva la relación conceptual Project 1 — N Board. Workspace posee el ciclo de vida de Project, mientras Kanban posee Board y mantiene su asociación con Project mediante una identidad pública estable.
 
-Workspace, Kanban y Canvas representan capacidades funcionales confirmadas por el producto. Su delimitación exacta, sus responsabilidades detalladas y sus APIs públicas se decidirán en los siguientes checkpoints.
+Esta relación no obliga a que Workspace contenga objetos Board ni conozca la implementación interna de Kanban. La navegación y composición entre ambos módulos será coordinada por App Shell. Las representaciones concretas en TypeScript y en persistencia permanecen diferidas.
 
-Los módulos se comunicarán mediante APIs públicas pequeñas y no accederán arbitrariamente a detalles internos de otros módulos.
+### Doble naturaleza de Canvas
+
+Canvas es un tipo de Board Item y conserva dos aspectos separados:
+
+- **organizativo:** Kanban conoce su identidad pública, pertenencia a una Column, posición y operaciones de movimiento;
+- **visual:** Canvas posee su escena, contenido, integración con Excalidraw, edición y Thumbnail.
+
+Canvas utilizará una identidad pública estable del Board Item y no accederá a stores, tablas ni detalles internos de Kanban. Kanban no conocerá escenas ni tipos internos de Excalidraw.
+
+### Attachments
+
+Kanban poseerá inicialmente la asociación y los metadatos de Attachments porque todo Attachment pertenece a un Board Item, sea Card o Canvas.
+
+Los formatos admitidos en la V1 serán `.pdf`, `.doc`, `.docx` y `.txt`. Kanban coordinará adjuntar, identificar, listar, asociar, abrir externamente y eliminar Attachments, mientras los adaptadores de infraestructura ejecutarán el acceso físico y la apertura segura mediante Tauri.
+
+La aplicación predeterminada del sistema operativo realizará la apertura. La estrategia física de almacenamiento sigue diferida: todavía no se decide entre IndexedDB, una copia administrada por Tauri o una referencia al archivo original.
+
+Eliminar un Attachment siempre eliminará su asociación con el Board Item. Una copia administrada podrá eliminarse, pero un archivo original únicamente referenciado nunca deberá borrarse ni modificarse por esta acción. Esta regla no afirma que exista eliminación física, papelera o recuperación persistente implementada.
+
+### Search
+
+Search será inicialmente una capacidad de aplicación de Kanban y utilizará el Project abierto como contexto.
+
+Buscará el título y la descripción de Cards y el título de Canvas. No inspeccionará escenas de Excalidraw ni el contenido de Attachments. No se creará un módulo Search independiente en la V1.
+
+### Settings
+
+Settings se confirma como módulo funcional ligero para preferencias globales. El modo oscuro es la única preferencia global confirmada actualmente.
+
+Las preferencias específicas de una funcionalidad permanecerán inicialmente en su módulo propietario.
 
 ### Shared UI
 
-Podrá reunir componentes y patrones visuales realmente compartidos. No contendrá reglas específicas de Workspace, Kanban o Canvas.
+Shared UI contendrá únicamente componentes y patrones visuales genéricos, accesibles y realmente reutilizables. No conocerá reglas ni entidades de Workspace, Kanban, Canvas o Settings.
 
-### Storage
+### Storage e infraestructura
 
-Storage es una capacidad de infraestructura, no un dominio funcional equivalente a Workspace, Kanban o Canvas.
+Storage permanece como capacidad de infraestructura y no como módulo funcional equivalente a Workspace, Kanban o Canvas.
 
 Implementará las operaciones de persistencia solicitadas: lecturas, escrituras, transacciones, recuperación y migraciones. También traducirá o propagará los fallos técnicos mediante resultados o errores apropiados.
 
 Storage no decidirá cuándo guardar, la frecuencia o agrupación de los guardados, ni representará estados visuales o comunicará errores directamente al usuario. La capa de aplicación coordinará la política de Autosave, infraestructura ejecutará la persistencia solicitada y presentación representará el estado resultante.
 
-Los adaptadores de persistencia utilizarán provisionalmente Dexie como capa de acceso a IndexedDB. Dexie no constituye por sí mismo un adaptador arquitectónico de CanvasFlow. La estrategia de PDF, imágenes, escenas y Thumbnail requiere validación específica.
+Los contratos de persistencia y archivos pertenecerán conceptualmente a las necesidades del módulo consumidor. Los adaptadores concretos permanecerán en infraestructura. Los adaptadores de persistencia utilizarán provisionalmente Dexie como capa de acceso a IndexedDB; Dexie no constituye por sí mismo un adaptador arquitectónico de CanvasFlow.
 
-### Settings
+### Capacidades compartidas y Core
 
-Settings permanece como capacidad conceptual pendiente de delimitación durante el checkpoint 02.2; todavía no se confirma como módulo independiente.
+No se confirma un módulo Core. Identidad, reloj, errores, constantes y utilidades permanecerán junto a sus propietarios hasta que exista una necesidad estable de compartirlos.
 
-No se crearán módulos ni carpetas reservadas para Notes, Sync, Collaboration u otras capacidades futuras mientras no exista alcance y código real que los justifique.
+No se crearán carpetas globales `utils`, `helpers`, `common` o `core` como destino genérico, ni módulos reservados para Notes, Sync o Collaboration mientras no exista alcance real que los justifique.
+
+### Comunicación entre módulos
+
+Los módulos se comunicarán mediante APIs públicas pequeñas. App Shell coordinará navegación y composición, y ningún módulo accederá arbitrariamente a los stores, tablas o detalles internos de otro.
+
+La forma física de esas APIs permanece diferida hasta el checkpoint correspondiente y su implementación deberá comprobar estos límites con flujos verticales reales.
 
 ## 7. Modelo de dominio central
 
@@ -218,7 +261,7 @@ Además:
 
 - un error de escritura no deberá interpretarse como éxito;
 - las entidades persistentes tendrán identificadores generables localmente, fecha de creación y fecha de modificación;
-- PDF e imágenes se tratarán como contenido externo y se abrirán mediante mecanismos seguros de la plataforma.
+- Attachments e imágenes externas se tratarán como contenido no confiable y se abrirán mediante mecanismos seguros de la plataforma.
 
 La estrategia concreta para archivos pesados, escenas y Thumbnail permanece pendiente de la prueba técnica indicada en ADR-004.
 
@@ -245,11 +288,16 @@ La integración deberá:
 
 ## 13. Búsqueda
 
-La búsqueda de la V1 tendrá como límite el Project abierto y podrá encontrar Board Items de cualquiera de sus Boards.
+Search será una capacidad de aplicación de Kanban en la V1. Tendrá como límite el Project abierto y podrá encontrar Board Items de cualquiera de sus Boards.
 
-Deberá soportar coincidencias parciales, ignorar mayúsculas y minúsculas, filtrar por Card o Canvas y permitir navegar al resultado.
+La búsqueda utilizará:
 
-La búsqueda global entre Projects queda fuera de la V1. La estrategia de índices y consulta se definirá junto con el diseño de persistencia.
+- título y descripción de Cards;
+- título de Canvas.
+
+No inspeccionará escenas de Excalidraw ni el contenido de Attachments. Deberá soportar coincidencias parciales, ignorar mayúsculas y minúsculas, filtrar por Card o Canvas y permitir navegar al resultado.
+
+La búsqueda global entre Projects y un módulo Search independiente quedan fuera de la V1. La estrategia de índices y consulta se definirá junto con el diseño de persistencia.
 
 ## 14. Operaciones destructivas
 
@@ -267,7 +315,7 @@ La arquitectura deberá admitir Projects con múltiples Boards y cientos de Boar
 
 Se aplicarán, cuando las mediciones lo justifiquen:
 
-- carga progresiva de Canvas, Thumbnail, imágenes y PDF;
+- carga progresiva de Canvas, Thumbnail, imágenes y Attachments;
 - selectores de estado acotados;
 - aislamiento de renderizados costosos;
 - generación controlada de Thumbnail;
@@ -279,7 +327,7 @@ La referencia inicial es una interfaz utilizable en aproximadamente tres segundo
 
 Los datos de la V1 permanecerán localmente y no se enviarán a servicios externos.
 
-La aplicación solicitará solo los permisos necesarios. Attachments y enlaces se considerarán contenido no confiable y se abrirán mediante mecanismos seguros proporcionados por Tauri y la plataforma.
+La aplicación solicitará solo los permisos necesarios. Attachments y enlaces se considerarán contenido no confiable. Los Attachments se abrirán con la aplicación predeterminada del sistema operativo mediante capacidades encapsuladas en adaptadores de Tauri.
 
 La incorporación de capacidades de Tauri deberá respetar su modelo de seguridad y quedar limitada a adaptadores de infraestructura.
 
@@ -319,12 +367,11 @@ No se introducirán abstracciones de red sin un caso de uso aprobado.
 Permanecen abiertas para sus etapas técnicas:
 
 - estructura exacta de carpetas y APIs públicas de módulos;
-- límites detallados y APIs públicas concretas de Workspace, Kanban y Canvas;
 - representación de Board Item en TypeScript;
 - esquema e índices de IndexedDB;
 - estrategia de ordenamiento persistente;
 - formato y almacenamiento de escenas de Excalidraw;
-- almacenamiento físico de PDF e imágenes;
+- almacenamiento físico de Attachments e imágenes;
 - formato, frecuencia y almacenamiento de Thumbnail;
 - diseño exacto de stores y cachés;
 - estrategia de migraciones;

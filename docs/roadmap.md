@@ -113,7 +113,8 @@ El proyecto compila correctamente y mantiene una estructura profesional.
 ### Progreso real de la Etapa 02
 
 - [x] **02.1 — Modelo arquitectónico y dirección de dependencias.** Arquitectura modular orientada por funcionalidades y reglas de dependencia documentadas.
-- [ ] **02.2 — Límites de módulos y responsabilidades detalladas.** Siguiente checkpoint.
+- [x] **02.2 — Límites de módulos y responsabilidades detalladas.** Propiedad, fronteras y comunicación entre módulos documentadas.
+- [ ] **02.3 — Dominio y primer flujo vertical.** Siguiente checkpoint.
 
 ### Sprint 2 — Arquitectura base
 
@@ -385,7 +386,7 @@ Al finalizar este roadmap, CanvasFlow deberá permitir a un estudiante:
 - crear Cards;
 - crear Canvas;
 - dibujar;
-- adjuntar PDF;
+- adjuntar archivos PDF, Word y de texto plano;
 - buscar contenido;
 - guardar automáticamente;
 - trabajar completamente offline.

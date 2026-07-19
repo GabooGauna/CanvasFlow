@@ -64,7 +64,7 @@ En la V1 podrá contener:
 - título;
 - descripción;
 - color;
-- PDF adjuntos;
+- Attachments;
 - fecha de creación;
 - fecha de modificación.
 
@@ -86,7 +86,9 @@ No debe confundirse con un Board Item.
 
 Archivo asociado a un Board Item.
 
-En la V1, el tipo de archivo adjunto planificado explícitamente será PDF, aunque el modelo podrá prepararse para otros formatos futuros.
+En la V1 se admitirán archivos PDF (`.pdf`), Word (`.doc` y `.docx`) y de texto plano (`.txt`).
+
+Un Attachment conserva metadatos como nombre, tipo y tamaño, mientras que la estrategia para almacenar o referenciar su contenido físico permanece diferida.
 
 ## Preview
 

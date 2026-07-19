@@ -136,7 +136,7 @@ El usuario debe poder consultar y modificar el título, la descripción y el col
 
 La Card deberá registrar su fecha de creación y su fecha de última modificación.
 
-En la V1, una Card podrá contener archivos PDF adjuntos. No incluirá fechas límite, etiquetas, responsables, comentarios, prioridades, colaboración ni historial avanzado.
+En la V1, una Card podrá contener Attachments en los formatos admitidos. No incluirá fechas límite, etiquetas, responsables, comentarios, prioridades, colaboración ni historial avanzado.
 
 ### RF-04.5 — Mover una Card dentro de una columna
 
@@ -210,7 +210,7 @@ El usuario debe poder agregar, modificar y eliminar elementos visuales dentro de
 
 En la V1, el Canvas utilizará las herramientas básicas de Excalidraw necesarias para un uso funcional: selección, desplazamiento y zoom, texto, dibujo libre, rectángulos, elipses, líneas, flechas, conectores, borrado, incorporación de imágenes, deshacer y rehacer.
 
-No incluirá colaboración en tiempo real, inteligencia artificial, plugins, edición avanzada de PDF, bloques estilo Notion, fórmulas matemáticas avanzadas propias ni herramientas personalizadas fuera de las capacidades iniciales de Excalidraw.
+No incluirá colaboración en tiempo real, inteligencia artificial, plugins, edición interna de Attachments, bloques estilo Notion, fórmulas matemáticas avanzadas propias ni herramientas personalizadas fuera de las capacidades iniciales de Excalidraw.
 
 ### RF-06.6 — Mover el lienzo
 
@@ -224,27 +224,55 @@ Después de eliminarlo, el sistema deberá mostrar temporalmente una acción de 
 
 ---
 
-## RF-07 — Archivos PDF
+## RF-07 — Archivos adjuntos
 
-### RF-07.1 — Adjuntar archivos PDF
+### RF-07.1 — Adjuntar archivos
 
-El usuario debe poder adjuntar uno o varios archivos PDF a un Board Item.
+El usuario debe poder adjuntar uno o varios archivos a un Board Item.
 
-Inicialmente, tanto las Cards como los Canvas podrán contener archivos PDF adjuntos.
+En la V1 se admitirán los siguientes formatos:
 
-Los archivos adjuntos deberán permanecer asociados al Board Item correspondiente y conservarse después de cerrar y volver a abrir la aplicación.
+* PDF: `.pdf`;
+* Word: `.doc` y `.docx`;
+* texto plano: `.txt`.
 
-### RF-07.2 — Visualizar archivos adjuntos
+Tanto las Cards como los Canvas podrán contener Attachments. Cada archivo deberá permanecer asociado al Board Item correspondiente y conservarse después de cerrar y volver a abrir la aplicación.
 
-El usuario debe poder identificar claramente que una Card o Canvas contiene uno o más archivos PDF.
+### RF-07.2 — Identificar y listar archivos adjuntos
 
-### RF-07.3 — Abrir un archivo PDF
+El usuario debe poder identificar claramente que una Card o Canvas contiene uno o más Attachments y acceder a su listado.
 
-El usuario debe poder abrir o visualizar un PDF adjunto desde CanvasFlow.
+Cada Attachment deberá mostrar, como mínimo:
+
+* nombre;
+* tipo;
+* tamaño.
+
+### RF-07.3 — Abrir un archivo adjunto externamente
+
+El usuario debe poder abrir un Attachment desde CanvasFlow mediante la aplicación predeterminada del sistema operativo.
+
+La apertura deberá utilizar capacidades encapsuladas de Tauri y no requerirá una previsualización interna.
 
 ### RF-07.4 — Eliminar un archivo adjunto
 
-El usuario debe poder eliminar un PDF adjunto sin eliminar necesariamente la Card o el Canvas que lo contiene.
+El usuario debe poder eliminar un Attachment sin eliminar necesariamente la Card o el Canvas que lo contiene. Esta acción siempre deberá eliminar la asociación entre el Attachment y su Board Item.
+
+Si la estrategia de almacenamiento utiliza una copia administrada por CanvasFlow, esa copia podrá eliminarse junto con la asociación. Si CanvasFlow conserva una referencia al archivo original, eliminar el Attachment no deberá borrar ni modificar el archivo original del usuario.
+
+El tratamiento físico definitivo permanece diferido hasta elegir la estrategia de almacenamiento. Este requisito no afirma que exista una papelera, recuperación persistente o eliminación física implementada.
+
+### RF-07.5 — Alcance de Attachments en la V1
+
+La V1 no incluirá:
+
+* edición interna de archivos adjuntos;
+* previsualización interna obligatoria;
+* búsqueda dentro del contenido de los documentos;
+* conversión de formatos;
+* sincronización de archivos.
+
+La estrategia física de almacenamiento permanece diferida. Todavía no se decide entre IndexedDB, una copia administrada por Tauri o una referencia al archivo original.
 
 ---
 
@@ -295,6 +323,10 @@ La posición exacta será definida durante la etapa de diseño de experiencia de
 ### RF-09.2 — Buscar por texto
 
 El usuario debe poder buscar contenido mediante texto.
+
+En la V1, la búsqueda utilizará el título y la descripción de las Cards y el título de los Canvas.
+
+La búsqueda no inspeccionará escenas de Excalidraw ni el contenido de Attachments.
 
 La búsqueda debe encontrar coincidencias parciales.
 
@@ -379,7 +411,7 @@ En la primera versión planificada, el usuario podrá:
 5. Personalizar el color de las Cards.
 6. Crear Canvas representados como Board Items con previsualización.
 7. Abrir, editar, mover y eliminar Canvas.
-8. Adjuntar y administrar archivos PDF.
+8. Adjuntar y administrar archivos PDF, Word y de texto plano.
 9. Guardar automáticamente todo el contenido.
 10. Buscar contenido por coincidencias parciales de texto.
 11. Filtrar resultados por tipo de contenido.
@@ -477,7 +509,7 @@ El movimiento de columnas y Board Items deberá proporcionar retroalimentación 
 
 ### RNF-03.4 — Carga progresiva
 
-Los contenidos pesados, especialmente Canvas, miniaturas, imágenes y PDF, no deberán cargarse de forma innecesaria cuando no estén visibles o abiertos.
+Los contenidos pesados, especialmente Canvas, miniaturas, imágenes y Attachments, no deberán cargarse de forma innecesaria cuando no estén visibles o abiertos.
 
 ### RNF-03.5 — Escala inicial
 

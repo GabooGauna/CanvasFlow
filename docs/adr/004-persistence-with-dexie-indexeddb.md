@@ -38,7 +38,7 @@ La decisión será validada mediante una prueba técnica antes de consolidarse d
 
 ## Pendiente de validación
 
-- estrategia para archivos PDF;
+- estrategia física para los Attachments admitidos en la V1;
 - almacenamiento de imágenes;
 - formato de Canvas;
 - generación y almacenamiento de miniaturas;

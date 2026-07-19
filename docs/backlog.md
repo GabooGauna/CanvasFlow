@@ -61,7 +61,6 @@ El MVP técnico permitirá validar la arquitectura sin representar todavía una 
 - Editar título.
 - Editar descripción.
 - Cambiar color.
-- Adjuntar PDF.
 - Mover Cards dentro de una Column.
 - Mover Cards entre Columns.
 - Eliminar Cards con opción de deshacer.
@@ -77,8 +76,16 @@ El MVP técnico permitirá validar la arquitectura sin representar todavía una 
 - Mostrar la miniatura en el Board.
 - Mover Canvas dentro de una Column.
 - Mover Canvas entre Columns.
-- Adjuntar PDF.
 - Eliminar Canvas con opción de deshacer.
+
+### Attachments
+
+- Adjuntar archivos `.pdf`, `.doc`, `.docx` y `.txt` a Cards y Canvas.
+- Identificar cada Attachment por nombre, tipo y tamaño.
+- Listar los Attachments de un Board Item.
+- Abrir Attachments externamente con la aplicación predeterminada del sistema operativo.
+- Eliminar la asociación de Attachments sin eliminar su Board Item propietario ni borrar archivos originales únicamente referenciados.
+- Conservar la asociación y disponibilidad de los Attachments después de reiniciar.
 
 ### Búsqueda
 
@@ -163,7 +170,11 @@ Las siguientes funcionalidades no deben incorporarse durante la versión 1.0:
 - IA;
 - plugins;
 - notas por bloques;
-- edición avanzada de PDF;
+- edición interna de Attachments;
+- previsualización interna obligatoria de Attachments;
+- búsqueda dentro del contenido de Attachments;
+- conversión de formatos;
+- sincronización de archivos;
 - aplicación móvil;
 - comentarios;
 - equipos;

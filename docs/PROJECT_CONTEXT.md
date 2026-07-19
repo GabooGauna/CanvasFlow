@@ -8,7 +8,7 @@ La Etapa 00 — Planificación y Diseño del Producto y la Etapa 01 — Configur
 
 El repositorio está configurado con Git, utiliza la rama `main` y cuenta con una base técnica web y desktop reproducible y validada: React, TypeScript y Vite integrados con Tauri.
 
-La aplicación fue validada en navegador, como ventana nativa de Windows y mediante builds de producción. El modelo arquitectónico y la dirección de dependencias ya fueron documentados; la estructura definitiva de carpetas y el código funcional todavía no están implementados.
+La aplicación fue validada en navegador, como ventana nativa de Windows y mediante builds de producción. El modelo arquitectónico, la dirección de dependencias y los límites de módulos ya fueron documentados; la estructura definitiva de carpetas y el código funcional todavía no están implementados.
 
 El estado detallado se mantiene en [CURRENT_STATE.md](CURRENT_STATE.md).
 

@@ -24,13 +24,14 @@ La Etapa 00 — Planificación y Diseño del Producto y la Etapa 01 — Configur
 ## Checkpoints — Etapa 02
 
 - [x] 02.1 — Modelo arquitectónico y dirección de dependencias.
-- [ ] 02.2 — Límites de módulos y responsabilidades detalladas.
+- [x] 02.2 — Límites de módulos y responsabilidades detalladas.
+- [ ] 02.3 — Dominio y primer flujo vertical.
 
 ## Estado de implementación
 
-El modelo arquitectónico fue diseñado y registrado, pero todavía no se crearon carpetas arquitectónicas ni código funcional.
+El modelo arquitectónico, la dirección de dependencias y los límites de módulos fueron diseñados y registrados, pero todavía no se crearon carpetas arquitectónicas ni código funcional.
 
-La estructura exacta de carpetas y las APIs públicas concretas permanecen diferidas hasta que existan límites y código real que las justifiquen.
+Las decisiones de los checkpoints 02.1 y 02.2 son documentales. La estructura física de carpetas, los exports y las APIs públicas concretas permanecen diferidos hasta que el primer flujo vertical aporte código real para validarlos.
 
 ## Estado técnico del repositorio
 
@@ -151,4 +152,4 @@ Vite se creó en la raíz no vacía conservando `docs/`. El README genérico de 
 
 ## Próximo checkpoint
 
-**02.2 — Límites de módulos y responsabilidades detalladas.**
+**02.3 — Dominio y primer flujo vertical.**
